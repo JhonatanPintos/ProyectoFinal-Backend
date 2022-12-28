@@ -10,19 +10,25 @@ router.get("/", async (req, res) => {
     if(limit){
         res.json(products.slice(0,parseInt(limit)))
     } else {
-        res.json({ products })
+        res.render("index", {
+            products
+        })
     }
 })
 
 router.get("/:id", async (req, res) => {
     const id = parseInt(req.params.id)
     const product = await fileManager.getById(id)
+
+    req.io.emit('updatedProducts', await manager.getProducts());
     res.json({ product })
 })
 
 router.delete("/:pid", async (req, res) => {
     const id = parseInt(req.params.pid)
     const productDeleted = await fileManager.deleteById(id)
+
+    req.io.emit('updatedProducts', await manager.getProducts());
     res.json({status: "Success", massage: "Product Deleted!", productDeleted})
 })
 
@@ -30,6 +36,7 @@ router.post("/", async (req, res) => {
     const product = req.body
     const productAdded = await fileManager.add(product)
 
+    req.io.emit('updatedProducts', await manager.getProducts());
     res.json({status: "Success", productAdded})
 })
 
@@ -46,7 +53,16 @@ router.put("/:pid", async (req, res) => {
 
     await fileManager.update(id, product)
 
+    req.io.emit('updatedProducts', await manager.getProducts());
     res.json({status: "Success", product})
 })
+
+router.get("/realtimeproducts", async (req, res) => {
+    const products = await manager.getProducts()
+    res.render('realTimeProducts',{
+        products
+    })
+})
+
 
 export default router

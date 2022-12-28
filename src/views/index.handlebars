@@ -1,0 +1,14 @@
+<h1>Lista Products</h1>
+<div>
+        <input id="products" type="text">
+        <button id="btn">Enviar</button>
+</div>
+<div id="listaProd"></div>
+<div>
+    {{#each products}}
+    <p>{{this.title}}</p>
+    {{/each}}
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
