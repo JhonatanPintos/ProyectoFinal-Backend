@@ -1,5 +1,6 @@
-const boton = document.getElementById('boton')
 const table = document.getElementById('productsTable')
+const boton = document.getElementById('btn')
+
 
 const socket = io() 
 
@@ -27,3 +28,7 @@ socket.on('updatedProducts', data => {
         }
            
 } )
+
+boton.onclick = () => {
+    console.log("hola")
+}
