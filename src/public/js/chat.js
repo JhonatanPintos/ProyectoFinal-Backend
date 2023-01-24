@@ -1,7 +1,6 @@
 let socket = io()
 let user = ""
 let chatBox = document.getElementById("chatbox")
-console.log("gola")
 
 Swal.fire({
     title: 'Authentication',
