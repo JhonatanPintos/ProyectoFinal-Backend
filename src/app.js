@@ -2,8 +2,8 @@ import express from "express";
 import handlebars from "express-handlebars"
 import { Server } from "socket.io";
 import __dirname from "./utils.js"
-import productRouter from "./routes/products.router.js"
-import cartRouter from "./routes/cart.router.js"
+import mongoose from "mongoose";
+import run from "./run.js";
 
 const app = express()
 
@@ -14,17 +14,15 @@ app.engine("handlebars", handlebars.engine())
 app.set("views", __dirname + "/views")
 app.set("view engine", "handlebars")
 
-
-const httpServer = app.listen(8080, () => console.log("Listening..."))
-const socketServer = new Server(httpServer)
-httpServer.on("error", () => console.log("ERROR"))
-
-app.use((req,res,next)=>{
-    req.io = socketServer
-    next()
+mongoose.connect("mongodb+srv://jhonatan:jhonyp19@ecomerse.lzlwlcw.mongodb.net/?retryWrites=true&w=majority", {
+    dbName: "myFirstDatabase"
+}, (error) => {
+    if(error){
+        console.log("DB No conected...")
+        return
+    }
+    const httpServer = app.listen(8080, () => console.log("Listening..."))
+    const socketServer = new Server(httpServer)
+    httpServer.on("error", () => console.log("ERROR"))
+    run(socketServer, app)
 })
-
-app.use("/api/products", productRouter)
-app.use("/api/carts", cartRouter)
-
-app.use("/", (req, res) => res.send("HOME"))

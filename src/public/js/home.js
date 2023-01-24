@@ -25,8 +25,6 @@ addForm.addEventListener("submit", async (e) => {
         })
     })
     const data = await response.json()
-    console.log(response)
-    console.log(data)
     if(response.status == 200){
         alert("se agrego correctamente el producto")
     } else {
