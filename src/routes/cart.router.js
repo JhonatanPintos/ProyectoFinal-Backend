@@ -17,7 +17,7 @@ router.get("/:id", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    const newCart = await cartModel.create({products: {}})
+    const newCart = await cartModel.create({})
 
     res.json({status: "Success", newCart})
 })
@@ -25,8 +25,23 @@ router.post("/", async (req, res) => {
 router.post("/:cid/product/:pid", async (req, res) => {
     const cartID = req.params.cid
     const productID = req.params.pid
+    const quantity= req.body.quantity || 1
+    const cart = await cartModel.findById(cartID)
 
-    const cart = await cartManager.addProduct(cartID, productID)
+    let found = false
+    for (let i = 0; i < cart.products.length; i++) {
+        if (cart.products[i].id == productID) {
+            cart.products[i].quantity++
+            found = true
+            break
+        }
+    }
+    if (found == false) {
+        cart.products.push({ id: productID, quantity})
+    }
+
+    await cart.save()
+
 
     res.json({status: "Success", cart})
 })

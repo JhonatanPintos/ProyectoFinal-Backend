@@ -14,13 +14,11 @@ const run = (socketServer, app) => {
     app.use("/api/carts", cartRouter)
     app.use("/api/chat", chatRouter)
 
-    let messages = []
-
     socketServer.on("connection", socket => {
         console.log("New client connected")
         socket.on("message", async data => {
         await messagesModel.create(data)
-        messages = await messagesModel.find().lean().exec()
+        let messages = await messagesModel.find().lean().exec()
         socketServer.emit("logs", messages)
         })
     })
