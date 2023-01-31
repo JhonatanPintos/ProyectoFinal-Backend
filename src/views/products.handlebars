@@ -1,0 +1,26 @@
+<table class="table table-dark table-striped">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Title</th>
+      <th scope="col">Categoria</th>
+      <th scope="col">Precio</th>
+      <th scope="col">Stock</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  {{#each docs}}
+  <tbody>
+    <tr>
+      <th scope="row"></th>
+      <td>{{title}}</td>
+      <td>{{category}}</td>
+      <td>{{price}}</td>
+      <td>{{stock}}</td>
+      <td><button id="addToCart" type="button" class="btn btn-success">Agregar</button></td>
+    </tr>
+  </tbody>
+  {{/each}}
+</table>
+
+<script src="/js/product.js"></script>

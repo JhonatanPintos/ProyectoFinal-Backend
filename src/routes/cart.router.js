@@ -1,10 +1,9 @@
 import { Router } from "express"
-import CartManager from "../dao/manager/cart_manager.js"
 import cartModel from "../dao/models/cart.model.js"
 
-const cartManager = new CartManager("carts.json")
 const router = Router()
 
+//GET
 router.get("/", async (req, res) => {
     const carts = await cartModel.find().lean().exec()
     res.json({ carts })
@@ -12,10 +11,12 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     const id = req.params.id
-    const cart = await cartModel.findOne({_id: id})
-    res.json({ cart })
+    const cart = await cartModel.findOne({_id: id}).populate("products.id")
+    res.render("cart", {data: cart})
+    //console.log(cart.products)
 })
 
+//POST
 router.post("/", async (req, res) => {
     const newCart = await cartModel.create({})
 
@@ -45,5 +46,65 @@ router.post("/:cid/product/:pid", async (req, res) => {
 
     res.json({status: "Success", cart})
 })
+
+//DELETE
+router.delete("/:cid/product/:pid", async (req, res) => {
+    const cartID = req.params.cid
+    const productID = req.params.pid
+
+    const cart = await cartModel.findById(cartID)
+    if(!cart) return res.status(404).json({status: "error", error: "Cart Not Found"})
+
+    const productIDX = cart.products.findIndex(p => p.id == productID)
+
+    if(productIDX < 0) return res.status(404).json({status: "error", error: "Product Not Found on Cart"})
+
+    cart.products.splice(productIDX, 1)
+    await cart.save()
+
+    res.json({status: "Success", cart})
+})
+
+router.delete("/:cid", async (req, res) => {
+    const cartID = req.params.cid
+    const cart = await cartModel.findById(cartID)
+    if(!cart) return res.status(404).json({status: "error", error: "Cart Not Found"})
+
+    cart.products = []
+    await cart.save()    
+
+    res.json({status: "Success", cart})
+})
+
+//PUT
+router.put("/:cid/product/:pid", async (req, res) => {
+    const cartID = req.params.cid
+    const productID = req.params.pid
+    const newQuantity = req.body.quantity
+
+    const cart = await cartModel.findById(cartID)
+    if(!cart) return res.status(404).json({status: "error", error: "Cart Not Found"})
+
+    const productIDX = cart.products.find(p => p.id == productID)
+    productIDX.quantity = newQuantity
+
+    await cart.save()
+
+    res.json({status: "Success", cart})
+})
+
+router.put("/:cid", async (req, res) => {
+    const cartID = req.params.cid
+    const cartUpdate = req.body
+
+    const cart = await cartModel.findById(cartID)
+    if(!cart) return res.status(404).json({status: "error", error: "Cart Not Found"})
+
+    cart.products = cartUpdate
+    await cart.save()
+
+    res.json({status: "Success", cart})
+})
+
 
 export default router
