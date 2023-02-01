@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import __dirname from "./utils.js"
 import mongoose from "mongoose";
 import run from "./run.js";
+import MongoStore from "connect-mongo";
 
 const app = express()
 
@@ -14,9 +15,20 @@ app.engine("handlebars", handlebars.engine())
 app.set("views", __dirname + "/views")
 app.set("view engine", "handlebars")
 
-mongoose.connect("mongodb+srv://jhonatan:jhonyp19@ecomerse.lzlwlcw.mongodb.net/?retryWrites=true&w=majority", {
-    dbName: "myFirstDatabase"
-}, (error) => {
+const MongoUri = "mongodb+srv://jhonatan:jhonyp19@ecomerse.lzlwlcw.mongodb.net/?retryWrites=true&w=majority"
+const MongoDbName = "myFirstDatabase"
+
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: MongoUri,
+        dbName: MongoDbName
+    }),
+    secret: "mysecret",
+    resave: true,
+    saveUninitiazed: true
+}))
+
+mongoose.connect(MongoUri, {dbName: MongoDbName}, (error) => {
     if(error){
         console.log("DB No conected...")
         return

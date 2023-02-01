@@ -3,6 +3,7 @@ import productModel from "../dao/models/products.model.js"
 
 const router = Router()
 
+//GET
 router.get("/", async (req, res) => {
     const products = await productModel.find().lean().exec()
     const limit = req.query.limit
@@ -25,11 +26,10 @@ router.get("/realtimeproducts", async (req, res) => {
 router.get("/:id", async (req, res) => {
     const id = req.params.id
     const product = await productModel.findOne({_id: id})
-    res.json({
-        product
-    })
+    res.render("productDetail", product)
 })
 
+//DELETE
 router.delete("/:pid", async (req, res) => {
     const id = req.params.pid
     const productDeleted = await productModel.deleteOne({_id: id})
@@ -42,6 +42,7 @@ router.delete("/:pid", async (req, res) => {
     })
 })
 
+//POST
 router.post("/", async (req, res) => {
     try {
         const product = req.body
@@ -64,6 +65,7 @@ router.post("/", async (req, res) => {
     }
 })
 
+//PUT
 router.put("/:pid", async (req, res) => {
     const id = req.params.pid
     const productToUpdate = req.body
