@@ -15,6 +15,9 @@ const cartSchema = new mongoose.Schema({
     }
 })
 
+cartSchema.pre("find", function(){
+    this.populate("products.id")
+})
 mongoose.set("strictQuery", false)
 const cartModel = mongoose.model(cartCollection, cartSchema)
 

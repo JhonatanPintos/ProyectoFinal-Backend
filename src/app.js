@@ -5,6 +5,7 @@ import __dirname from "./utils.js"
 import mongoose from "mongoose";
 import run from "./run.js";
 import MongoStore from "connect-mongo";
+import session from "express-session";
 
 const app = express()
 
@@ -25,7 +26,7 @@ app.use(session({
     }),
     secret: "mysecret",
     resave: true,
-    saveUninitiazed: true
+    saveUninitialized: true
 }))
 
 mongoose.connect(MongoUri, {dbName: MongoDbName}, (error) => {
