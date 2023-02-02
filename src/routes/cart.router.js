@@ -11,8 +11,9 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     const id = req.params.id
-    const cart = await cartModel.find({_id: id}).lean()
-    const productsInCart = cart[0].products
+    const cart = await cartModel.findOne({_id: id}).lean()
+    const productsInCart = cart.products
+    console.log(cart)
     res.render("cart", {productsInCart})
 })
 
