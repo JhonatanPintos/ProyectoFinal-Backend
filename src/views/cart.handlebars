@@ -1,12 +1,13 @@
 <h1>Cart</h1>
 <hr>
-<table class="table table-dark table-striped">
+<table class="table table-dark table-striped text-center">
   <thead>
     <tr>
       <th scope="col"></th>
       <th scope="col">Title</th>
       <th scope="col">Price</th>
       <th scope="col">Stock</th>
+      <th scope="col">Quantity</th>
       <th scope="col"></th>
     </tr>
   </thead>
@@ -17,8 +18,13 @@
       <td>{{id.title}}</td>
       <td>{{id.price}}</td>
       <td>{{id.stock}}</td>
-      <td><button id="addToCart" type="button" class="btn btn-danger">X</button></td>
+      <td>{{quantity}}</td>
+      <td>
+      <button onclick="handleSubmit('{{id._id}}')" id="addToCart" class="btn btn-danger">X</button>
+      </td>
     </tr>
   </tbody>
   {{/each}}
 </table>
+
+<script src="/js/deleteCart.js"></script>

@@ -13,7 +13,6 @@ router.get("/:id", async (req, res) => {
     const id = req.params.id
     const cart = await cartModel.findOne({_id: id}).lean()
     const productsInCart = cart.products
-    console.log(cart)
     res.render("cart", {productsInCart})
 })
 
@@ -32,7 +31,8 @@ router.post("/:cid/product/:pid", async (req, res) => {
 
     let found = false
     for (let i = 0; i < cart.products.length; i++) {
-        if (cart.products[i].id == productID) {
+        if (cart.products[i].id._id == productID) {
+            
             cart.products[i].quantity++
             found = true
             break
@@ -45,7 +45,7 @@ router.post("/:cid/product/:pid", async (req, res) => {
     await cart.save()
 
 
-    res.json({status: "Success", cart})
+    res.redirect("/api/carts/63dc3a34053dd3ab71540deb")
 })
 
 //DELETE
@@ -56,7 +56,7 @@ router.delete("/:cid/product/:pid", async (req, res) => {
     const cart = await cartModel.findById(cartID)
     if(!cart) return res.status(404).json({status: "error", error: "Cart Not Found"})
 
-    const productIDX = cart.products.findIndex(p => p.id == productID)
+    const productIDX = cart.products.findIndex(p => p.id._id == productID)
 
     if(productIDX < 0) return res.status(404).json({status: "error", error: "Product Not Found on Cart"})
 
@@ -86,7 +86,7 @@ router.put("/:cid/product/:pid", async (req, res) => {
     const cart = await cartModel.findById(cartID)
     if(!cart) return res.status(404).json({status: "error", error: "Cart Not Found"})
 
-    const productIDX = cart.products.find(p => p.id == productID)
+    const productIDX = cart.products.find(p => p.id._id == productID)
     productIDX.quantity = newQuantity
 
     await cart.save()

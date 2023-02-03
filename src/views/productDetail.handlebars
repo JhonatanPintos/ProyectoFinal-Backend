@@ -8,5 +8,8 @@
     <strong>Description: </strong>
     <p class="card-text">{{description}}</p>
   </div>
+    <form class="card text-center" action="/api/carts/63dc3a34053dd3ab71540deb/product/{{_id}}" method="post">
+      <button id="addToCart" type="submit" class="btn btn-success">Agregar</button>
+    </form>
     <a class="btn btn-danger" href="#" onClick="history.go(-1)">Volver</a>
 </div>
