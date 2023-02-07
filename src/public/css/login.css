@@ -1,0 +1,28 @@
+/* INICIO SESION */
+.gradient-custom-4 {
+    color: white !important;
+    background: linear-gradient(125deg, blueviolet 35%, cyan 50%, blueviolet 65%);
+    background-repeat: repeat;
+    animation: gradient 7s linear infinite; 
+    }
+
+    @keyframes gradient {
+        0% {
+          background-position: 0 0; }
+        50% {
+          background-position: -40rem 0; }
+        100% {
+          background-position: 0 0; } }
+      
+.cardCss{
+    background-image: url(https://st3.depositphotos.com/1356500/37513/i/450/depositphotos_375131588-stock-photo-stars-galaxy-outer-space-sky.jpg);
+    color: white;
+}
+
+.modalCss{
+    color: white;
+}
+
+.modalCssInt{
+    background-image: url(https://st3.depositphotos.com/1356500/37513/i/450/depositphotos_375131588-stock-photo-stars-galaxy-outer-space-sky.jpg);
+}

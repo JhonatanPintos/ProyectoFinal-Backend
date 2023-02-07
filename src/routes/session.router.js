@@ -19,7 +19,7 @@ router.get('/failregister', (req, res) => {
 
 // Vista de Login
 router.get('/login', (req, res) => {
-    res.render('sessions/login')
+    res.render('sessions/login', {style: "/css/login.css"})
 })
 
 // API para login
@@ -50,8 +50,10 @@ router.get('/logout', (req, res) => {
         if (err) {
             console.log(err);
             res.status(500).render('errors/base', { error: err })
-        } else res.redirect('/sessions/login')
+        } else res.redirect('/session/login')
     })
 })
+
+
 
 export default router

@@ -32,6 +32,8 @@ const initializePassport = () => {
         } catch (error) {
             return done("[LOCAL] Error al obtener user " + error)
         }
+
+
     }))
 
     passport.use('login', new LocalStrategy({
@@ -48,6 +50,7 @@ const initializePassport = () => {
 
             return done(null, user)
         } catch (error) {
+            console.log("error")
         }
     }))
 
