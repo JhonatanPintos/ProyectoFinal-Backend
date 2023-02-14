@@ -54,6 +54,23 @@ router.get('/logout', (req, res) => {
     })
 })
 
+//Para iniciar con GitHub
+router.get(
+    '/github',
+    passport.authenticate('github', {scope: ['user:email']}),
+    async(req, res) => {}
+)
+
+router.get(
+    '/githubcallback',
+    passport.authenticate('github', {failureRedirect: '/session/login'}),
+    async(req, res) => {
+
+        req.session.user = req.user
+        res.redirect('/products')
+    }
+)
+
 
 
 export default router
