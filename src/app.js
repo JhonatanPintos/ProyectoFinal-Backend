@@ -4,14 +4,16 @@ import { Server } from "socket.io";
 import __dirname from "./utils.js"
 import mongoose from "mongoose";
 import run from "./run.js";
-import MongoStore from "connect-mongo";
+//import MongoStore from "connect-mongo";
 import session from "express-session";
 import initializePassport from "./config/passport.config.js";
+import cookieParser from "cookie-parser";
 import passport from "passport";
 
 const app = express()
 
 app.use(express.json())
+app.use(cookieParser())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static(__dirname + "/public"))
 app.engine("handlebars", handlebars.engine())
@@ -22,12 +24,8 @@ const MongoUri = "mongodb+srv://jhonatan:jhonyp19@ecomerse.lzlwlcw.mongodb.net/?
 const MongoDbName = "myFirstDatabase"
 
 app.use(session({
-    store: MongoStore.create({
-        mongoUrl: MongoUri,
-        dbName: MongoDbName
-    }),
     secret: "mysecret",
-    resave: true,
+    resave: false,
     saveUninitialized: true
 }))
 initializePassport()

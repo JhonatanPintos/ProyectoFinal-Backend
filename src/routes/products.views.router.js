@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
     
     const data = await productModel.paginate(search, options)
 
-    const user = req.session.user
+    const user = req.user.user
 
     res.render('products', {data, user})
 })
