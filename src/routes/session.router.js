@@ -7,7 +7,6 @@ const router = Router()
 
 //Profile
 router.get('/current', passportCall('jwt'), authorization('user'), (req, res)=>{
-    console.log('get: ',req.user);
     res.render('sessions/profile', {
         user: req.user.user
     })

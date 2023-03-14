@@ -35,7 +35,6 @@ const initializePassport = () => {
                 cart: await cartModel.create({})
             }
             const result = await UserModel.create(newUser)
-            console.log(newUser)
             
             return done(null, result)
         } catch (error) {
@@ -64,6 +63,7 @@ const initializePassport = () => {
         }
     }))
 
+    //Inicio con gitHub
     passport.use('github', new GitHubStrategy({
         clientID: "Iv1.73221fc1612b992a",
         clientSecret: "dd777dc74259386c302daec71f5f51a55e268158",
@@ -90,6 +90,7 @@ const initializePassport = () => {
         }
     }))
 
+    //JWT
     passport.use('jwt', new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromExtractors([extractCookie]),
         secretOrKey: jwtPrivateKey

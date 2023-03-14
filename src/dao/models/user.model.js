@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     age: Number,
     password: String,
     cart: {
-        id: {
+        _id: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "carts"
         }
