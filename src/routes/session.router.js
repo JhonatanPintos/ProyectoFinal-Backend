@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import { jwtCookieName } from "../config/credentials.js";
+import config from "../config/config.js";
 import { authorization, passportCall } from "../utils.js";
 
 const router = Router()
@@ -36,7 +36,7 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/sessio
     if (!req.user) {
         return res.status(400).send({ status: "error", error: "Invalid credentiales" })
     }
-    res.cookie(jwtCookieName, req.user.token).redirect('/products')
+    res.cookie(config.jwtCookieName, req.user.token).redirect('/products')
     
 })
 router.get('/faillogin', (req, res) => {
@@ -49,7 +49,7 @@ router.get('/profile', (req, res) => {
 
 // Cerrar Session
 router.get('/logout', (req, res) => {
-    res.clearCookie(jwtCookieName).redirect('/session/login');
+    res.clearCookie(config.jwtCookieName).redirect('/session/login');
 })
 
 //Para iniciar con GitHub

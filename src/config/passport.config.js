@@ -1,11 +1,10 @@
 import passport from "passport";
 import local from "passport-local"
-import UserModel from "../dao/models/user.model.js";
+import { UserService, CartService } from "../repository/index.js";
 import { createHash, isValidPassword, generateToken, extractCookie } from '../utils.js'
 import GitHubStrategy from "passport-github2"
 import passport_jwt from "passport-jwt"
-import { jwtPrivateKey } from "./credentials.js"; 
-import cartModel from "../dao/models/cart.model.js"
+import config from "./config.js";
 
 const LocalStrategy = local.Strategy
 const JWTStrategy = passport_jwt.Strategy
@@ -20,7 +19,7 @@ const initializePassport = () => {
 
         const {first_name, last_name, email, age } = req.body
         try {
-            const user = await UserModel.findOne({email: username})
+            const user = await UserService.getOneByEmail(username)
             if(user) {
                 console.log("User already exits");
                 return done(null, false)
@@ -32,9 +31,9 @@ const initializePassport = () => {
                 email,
                 age,
                 password: createHash(password),
-                cart: await cartModel.create({})
+                cart: await CartService.create({})
             }
-            const result = await UserModel.create(newUser)
+            const result = await UserService.create(newUser)
             
             return done(null, result)
         } catch (error) {
@@ -47,7 +46,7 @@ const initializePassport = () => {
         usernameField: 'email'
     }, async (username, password, done) => {
         try {
-            const user = await UserModel.findOne({email: username})
+            const user = await UserService.getOneByEmail(username)
             if(!user) {
                 console.log("User dont exist");
                 return done(null, user)
@@ -80,7 +79,7 @@ const initializePassport = () => {
                 email: profile._json.email,
                 age: profile._json.age,
                 password: "",
-                cart: await cartModel.create({}),
+                cart: await CartService.create({}),
                 role: "user"
             })
 
@@ -93,7 +92,7 @@ const initializePassport = () => {
     //JWT
     passport.use('jwt', new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromExtractors([extractCookie]),
-        secretOrKey: jwtPrivateKey
+        secretOrKey: config.jwtPrivateKey
     }, async(jwt_payload, done) => {
         done(null, jwt_payload)
     }))
@@ -103,7 +102,7 @@ const initializePassport = () => {
     })
 
     passport.deserializeUser(async (id, done) => {
-        const user = await UserModel.findById(id)
+        const user = await UserService.getOneByID(id)
         done(null, user)
     })
 

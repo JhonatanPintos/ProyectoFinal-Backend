@@ -3,7 +3,7 @@ import { dirname } from 'path'
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import passport from 'passport'
-import { jwtCookieName, jwtPrivateKey } from './config/credentials.js'
+import config from './config/config.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -21,12 +21,12 @@ export const isValidPassword = (user, password) => {
 //JWT
 
 export const generateToken = user => {
-    const token = jwt.sign({user}, jwtPrivateKey, {expiresIn: "24h"})
+    const token = jwt.sign({user}, config.jwtPrivateKey, {expiresIn: "24h"})
     return token
 }
 
 export const extractCookie = req => {
-    return (req && req.cookies) ? req.cookies[jwtCookieName] : null
+    return (req && req.cookies) ? req.cookies[config.jwtCookieName] : null
 }
 
 export const passportCall = (strategy) =>  {

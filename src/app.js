@@ -20,9 +20,6 @@ app.engine("handlebars", handlebars.engine())
 app.set("views", __dirname + "/views")
 app.set("view engine", "handlebars")
 
-const MongoUri = "mongodb+srv://jhonatan:jhonyp19@ecomerse.lzlwlcw.mongodb.net/?retryWrites=true&w=majority"
-const MongoDbName = "myFirstDatabase"
-
 app.use(session({
     secret: "mysecret",
     resave: false,
@@ -32,13 +29,7 @@ initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
-mongoose.connect(MongoUri, {dbName: MongoDbName}, (error) => {
-    if(error){
-        console.log("DB No conected...")
-        return
-    }
     const httpServer = app.listen(8080, () => console.log("Listening..."))
     const socketServer = new Server(httpServer)
     httpServer.on("error", () => console.log("ERROR"))
     run(socketServer, app)
-})
