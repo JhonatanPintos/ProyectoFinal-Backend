@@ -22,6 +22,7 @@ switch (config.persistence) {
 
         break;
     case 'MONGO':
+        mongoose.set("strictQuery", false)
         mongoose.connect(config.mongoURI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,

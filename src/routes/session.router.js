@@ -8,7 +8,9 @@ const router = Router()
 
 //Profile
 router.get('/current', passportCall('jwt'), authorization('user'), async (req, res)=>{
-    res.render('sessions/profile', {user: req.user.user})
+    const id = req.user.user._id
+    const user = await UserService.getOneByID(id)
+    res.render('sessions/profile', {user: user})
 })
 
 //Vista para registrar usuarios

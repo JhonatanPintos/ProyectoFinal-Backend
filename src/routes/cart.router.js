@@ -20,13 +20,13 @@ router.get("/:id", async (req, res) => {
 })
 
 //POST
-router.post("/", async (req, res) => {
+router.post("/", authorization('user'), async (req, res) => {
     const newCart = await CartService.create({})
 
     res.json({status: "Success", newCart})
 })
 
-router.post("/:cid/product/:pid", async (req, res) => {
+router.post("/:cid/product/:pid", authorization('user'), async (req, res) => {
     const cartID = req.params.cid
     const productID = req.params.pid
     const quantity= req.body.quantity || 1
