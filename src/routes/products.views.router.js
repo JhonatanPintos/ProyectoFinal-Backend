@@ -30,7 +30,6 @@ router.get("/", async (req, res) => {
     const data = await ProductService.getPaginate(search, options)
 
     const user = req.user.user
-    console.log(data)
     res.render('products', {data, user})
 })
 

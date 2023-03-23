@@ -9,10 +9,7 @@ const ticketSchema = new mongoose.Schema({
         default: Date.now
     },
     amount: Number,
-    purchaser: {
-        type: String,
-        ref: "users"
-    },
+    purchaser: String
 })
 
 mongoose.set("strictQuery", false)

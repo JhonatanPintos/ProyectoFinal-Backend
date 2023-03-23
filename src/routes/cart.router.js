@@ -1,5 +1,8 @@
 import { Router } from "express"
-import { CartService } from "../repository/index.js"
+import TicketModel from "../dao/mongo/models/ticket.model.js"
+import { CartService, ProductService } from "../repository/index.js"
+import { authorization, passportCall } from "../utils.js"
+import { v4 as uuidv4 } from 'uuid';
 
 const router = Router()
 
@@ -48,8 +51,35 @@ router.post("/:cid/product/:pid", async (req, res) => {
     res.redirect(`/api/carts/${cartID}`)
 })
 
-router.post("/:cid/purchase", async (req, res) => {
+router.post("/:cid/purchase", passportCall('jwt'), authorization('user'), async (req, res) => {
     const cartID = req.params.cid
+    const cart = await CartService.getById(cartID)
+    let totalPrice = 0
+    const noStock = []
+    const comparation = cart.products
+    await Promise.all(comparation.map( async p => {
+        if(p.id.stock >= p.quantity){
+            p.id.stock -= p.quantity;
+            ProductService.update(p.id._id, p.id);
+            totalPrice += p.id.price * p.quantity;
+            const productIDX = comparation.findIndex(item => item.id._id == p.id._id)
+            comparation.splice(productIDX, 1)
+            await cart.save()
+        } else {
+            noStock.push({
+                title: p.id.title,
+                price: p.id.price,
+                quantity: p.quantity
+            })
+        }
+    }))
+     if(totalPrice > 0)
+      await TicketModel.create({
+          purchaser : req.user.user.email,
+          amount : totalPrice,
+          code: uuidv4()
+      })
+    res.json({status: "Success"})
 })
 
 //DELETE
