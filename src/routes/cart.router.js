@@ -19,7 +19,7 @@ router.get("/:id", async (req, res) => {
     res.render("cart", {productsInCart})
 })
 
-//POST
+//POST USER
 router.post("/", authorization('user'), async (req, res) => {
     const newCart = await CartService.create({})
 
@@ -82,8 +82,8 @@ router.post("/:cid/purchase", passportCall('jwt'), authorization('user'), async 
     res.json({status: "Success"})
 })
 
-//DELETE
-router.delete("/:cid/product/:pid", async (req, res) => {
+//DELETE ADMIN
+router.delete("/:cid/product/:pid", authorization('admin'), async (req, res) => {
     const cartID = req.params.cid
     const productID = req.params.pid
 
@@ -100,7 +100,7 @@ router.delete("/:cid/product/:pid", async (req, res) => {
     res.json({status: "Success", cart})
 })
 
-router.delete("/:cid", async (req, res) => {
+router.delete("/:cid", authorization('admin'), async (req, res) => {
     const cartID = req.params.cid
     const cart = await CartService.getById(cartID)
     if(!cart) return res.status(404).json({status: "error", error: "Cart Not Found"})
@@ -111,8 +111,8 @@ router.delete("/:cid", async (req, res) => {
     res.json({status: "Success", cart})
 })
 
-//PUT
-router.put("/:cid/product/:pid", async (req, res) => {
+//PUT ADMIN
+router.put("/:cid/product/:pid", authorization('admin'), async (req, res) => {
     const cartID = req.params.cid
     const productID = req.params.pid
     const newQuantity = req.body.quantity
@@ -128,7 +128,7 @@ router.put("/:cid/product/:pid", async (req, res) => {
     res.json({status: "Success", cart})
 })
 
-router.put("/:cid", async (req, res) => {
+router.put("/:cid", authorization('admin'), async (req, res) => {
     const cartID = req.params.cid
     const cartUpdate = req.body
 
