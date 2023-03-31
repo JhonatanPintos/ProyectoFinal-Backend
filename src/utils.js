@@ -4,6 +4,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import passport from 'passport'
 import config from './config/config.js'
+import {faker} from "@faker-js/faker"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -47,5 +48,22 @@ export const authorization = (role) => {
         if (!user) return res.status(401).send({ error: "Unauthorized" });
         if (user.role != role) return res.status(403).send({ error: 'No Permission' })
         next();
+    }
+}
+
+faker.locale= 'es';
+export const generateProduct = () => {
+   
+    return{
+        _id: faker.database.mongodbObjectId(),
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        price: faker.commerce.price(),
+        thumbnails: [faker.image.imageUrl()],
+        code: faker.random.numeric(5),
+        stock: faker.random.numeric(2),
+        category: faker.commerce.department(),
+        status: faker.datatype.boolean()
+        
     }
 }

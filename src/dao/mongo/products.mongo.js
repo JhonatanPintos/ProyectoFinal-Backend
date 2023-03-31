@@ -1,4 +1,8 @@
 import ProductModel from "./models/products.model.js"
+import CustomError from "../../errors/custom.errors.js"
+import EErros from "../../errors/enums.js"
+import { generateProdErrorInfo } from "../../errors/info.js"
+
 
 export default class Product {
     constructor() {}
@@ -12,6 +16,14 @@ export default class Product {
     }
 
     create = async(data) => {
+        if(!data.title){
+            CustomError.createError({
+                name: "Title creation error",
+                cause: generateProdErrorInfo(),
+                message: "Error trying to create product",
+                code: EErros.INVALID_TYPES_ERROR
+            })
+        }
         return await ProductModel.create(data)
     }
 
