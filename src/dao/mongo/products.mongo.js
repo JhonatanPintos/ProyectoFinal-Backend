@@ -2,6 +2,7 @@ import ProductModel from "./models/products.model.js"
 import CustomError from "../../errors/custom.errors.js"
 import EErros from "../../errors/enums.js"
 import { generateProdErrorInfo } from "../../errors/info.js"
+import MockModel from "./models/mock.model.js"
 
 
 export default class Product {
@@ -38,5 +39,4 @@ export default class Product {
     update = async (id, productToUpdate) => {
         return await ProductModel.updateOne({_id: id}, productToUpdate)
     }
-
 }

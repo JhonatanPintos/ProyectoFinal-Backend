@@ -5,6 +5,7 @@ export let Cart
 export let Message
 export let Product
 export let User
+export let Mock
 
 console.log(`PERSISTENCE [${config.persistence}]`);
 switch (config.persistence) {
@@ -33,11 +34,13 @@ switch (config.persistence) {
         const { default: MessageMongo } = await import('./mongo/messages.mongo.js')
         const { default: UserMongo } = await import('./mongo/users.mongo.js')
         const { default: CartMongo } = await import('./mongo/carts.mongo.js')
+        const { default: MockMongo } = await import('./mongo/mock.mongo.js')
 
         Product = ProductMongo
         Message = MessageMongo
         Cart = CartMongo
         User = UserMongo
+        Mock = MockMongo
 
         break;
     default:
