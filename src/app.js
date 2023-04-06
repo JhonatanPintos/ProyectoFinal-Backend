@@ -2,18 +2,20 @@ import express from "express";
 import handlebars from "express-handlebars"
 import { Server } from "socket.io";
 import __dirname from "./utils.js"
-import mongoose from "mongoose";
+//import mongoose from "mongoose";
 import run from "./run.js";
 //import MongoStore from "connect-mongo";
 import session from "express-session";
 import initializePassport from "./config/passport.config.js";
 import cookieParser from "cookie-parser";
 import passport from "passport";
+import { addLogger } from "./errors/logger.js";
 
 const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
+app.use(addLogger)
 app.use(express.urlencoded({extended: true}))
 app.use(express.static(__dirname + "/public"))
 app.engine("handlebars", handlebars.engine())

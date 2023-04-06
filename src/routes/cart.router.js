@@ -61,7 +61,7 @@ router.post("/:cid/product/:pid", async (req, res) => {
         
             await cart.save()
     } catch(error){
-        console.log(error)
+        req.logger.error(error)
         
     }
 

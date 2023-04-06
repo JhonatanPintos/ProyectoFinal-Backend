@@ -33,7 +33,7 @@ export const passportCall = (strategy) =>  {
     return async (req, res, next) => {
         passport.authenticate(strategy, function(err, user, info){
             if(err) return next(err)
-            if(!user) return res.status(401).render("errors/base", {error: info.messages ? info.messages : info.toString()})
+            if(!user) return res.status(401).render("errors/base", {error: info.messages ? info.messages : info.toString()}), req.logger.error('User No Logeado')
 
             req.user = user
             next()

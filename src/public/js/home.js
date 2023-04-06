@@ -26,8 +26,17 @@ addForm.addEventListener("submit", async (e) => {
     })
     const data = await response.json()
     if(response.status == 200){
-        alert("se agrego correctamente el producto")
+        Swal.fire({
+            icon: 'success',
+            title: 'Se agrego correctamente el producto',
+            showConfirmButton: false,
+            timer: 1500
+          })
     } else {
-        alert("Error no se pudo agregar el producto")
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Error no se pudo agregar el producto',
+          })
     }
 })

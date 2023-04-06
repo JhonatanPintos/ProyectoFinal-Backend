@@ -58,7 +58,7 @@ router.post("/", async (req, res) => {
             productAdded
         })
     } catch (error) {
-        console.log(error)
+        req.logger.error(error)
         res.json({
             error
         })
