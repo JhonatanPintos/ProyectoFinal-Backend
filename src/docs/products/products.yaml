@@ -1,0 +1,226 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Los productos fueron obtenidos satisfactoriamente de la base de datos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Product"
+        "401":
+          description: Error de autenticación. Es necesario iniciar sesión para acceder a este recurso
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexión con la base de datos
+    post:
+      summary: Crea un producto nuevo
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/addProduct"
+      responses:
+        "200":
+          description: El producto fue creado satisfactoriamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Product"
+        "400":
+          description: Error en la petición. Usualmente se debe a la omisión de campos requeridos, a errores en los tipos de datos o a valores duplicados en campos que deberían ser únicos
+        "401":
+          description: Error de autenticación. Es necesario iniciar sesión para crear un producto
+        "403":
+          description: Error de autorización. Sólo los admin y usuarios premium pueden crear productos
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexión con la base de datos
+  /api/products/{pid}:
+    get:
+      summary: Obtiene un solo producto a partir de su ID
+      tags:
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: ID del producto que se desea solicitar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Product"
+        "401":
+          description: Error de autenticación. Es necesario iniciar sesión para acceder a este recurso
+        "404":
+          description: El producto no fue encontrado. Puede que haya sido eliminado o que el ID sea incorrecto
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexión con la base de datos
+    put:
+      summary: Modifica un solo producto a partir de su ID
+      tags:
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: ID del producto que se desea modificar
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateProduct"
+      responses:
+        "200":
+          description: Producto modificado satisfactoriamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Product"
+        "400":
+          description: Error en la petición. Usualmente se debe a la omisión de campos requeridos, a errores en los tipos de datos o a valores duplicados en campos que deberían ser únicos
+        "401":
+          description: Error de autenticación. Es necesario iniciar sesión para modificar este recurso
+        "403":
+          description: Error de autorización. No se cuentan con los permisos necesarios para realizar la modificación.
+        "404":
+          description: El producto no fue encontrado. Puede que haya sido eliminado o que el ID sea incorrecto
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexión con la base de datos
+    delete:
+      summary: Modifica un solo producto a partir de su ID
+      tags:
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: ID del producto que se desea eliminar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Producto eliminado satisfactoriamente
+        "401":
+          description: Error de autenticación. Es necesario iniciar sesión para modificar este recurso
+        "403":
+          description: Error de autorización. No se cuentan con los permisos necesarios para realizar la modificación.
+        "404":
+          description: El producto no fue encontrado. Puede que haya sido eliminado o que el ID sea incorrecto
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexión con la base de datos
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID autogenerado por Mongo
+        title:
+          type: String
+          description: Título del producto
+        description:
+          type: String
+          description: Descripción del producto
+        price:
+          type: Number
+          description: Precio del producto
+        stock:
+          type: Number
+          description: Stock disponible del producto
+        categories:
+          type: Array
+          description: Categorías del producto
+        thumbnails:
+          type: Array
+          description: Imágenes del producto
+        owner:
+          type: String
+          description: El creador del producto. Puede ser "admin" o el ID de un usuario premium
+      example:
+        _id: ObjectId("63d8b06a7126efe3d18d1bb0")
+        title: Queso1
+        description: un queso
+        price: 300
+        stock: 26
+        categories: lacteos
+        thumbnails: "una foto"
+        owner: admin
+  requestBodies:
+    addProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Título del producto
+        description:
+          type: String
+          description: Descripción del producto
+        price:
+          type: Number
+          description: Precio del producto
+        stock:
+          type: Number
+          description: Stock disponible del producto
+        categories:
+          type: Array
+          description: Categorías del producto
+        thumbnails:
+          type: Array
+          description: Imágenes del producto
+      example:
+        _id: ObjectId("63d8b06a7126efe3d18d1bb0")
+        title: Queso1
+        description: un queso
+        price: 300
+        stock: 26
+        categories: lacteos
+        thumbnails: "una foto"
+        owner: admin
+    updateProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Título del producto
+        description:
+          type: String
+          description: Descripción del producto
+        price:
+          type: Number
+          description: Precio del producto
+        stock:
+          type: Number
+          description: Stock disponible del producto
+        categories:
+          type: Array
+          description: Categorías del producto
+        thumbnails:
+          type: Array
+          description: Imágenes del producto
+      example:
+        _id: ObjectId("63d8b06a7126efe3d18d1bb0")
+        title: Queso1
+        description: un queso
+        price: 300
+        stock: 26
+        categories: lacteos
+        thumbnails: "una foto"
+        owner: admin
+
+    

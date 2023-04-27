@@ -4,7 +4,7 @@ import chatRouter from "./routes/chat.router.js"
 import { MessageService } from "./repository/index.js"
 import productViewsRouter from './routes/products.views.router.js'
 import sessionRouter from './routes/session.router.js'
-import { passportCall } from "./utils.js";
+import { passportCall, authorization } from "./utils.js";
 import errorMiddlewares from "./errors/errorMiddlewares.js"
 import mocksRouter from "./routes/mocks.router.js"
 import loggerTest from "./routes/loggerTest.js"
@@ -17,11 +17,11 @@ const run = (socketServer, app) => {
 
     app.use("/products", passportCall("jwt"), productViewsRouter)
     app.use("/session", sessionRouter)
-    app.use("/api/products", productRouter)
-    app.use("/api/carts", cartRouter)
-    app.use("/api/chat", chatRouter)
-    app.use("/api/mockingProducts", mocksRouter)
-    app.use("/loggerTest", loggerTest)
+    app.use("/api/products", passportCall("jwt"), productRouter)
+    app.use("/api/carts", passportCall("jwt"), cartRouter)
+    app.use("/api/chat", passportCall("jwt"), chatRouter)
+    app.use("/api/mockingProducts", passportCall("jwt"), authorization('admin'), mocksRouter)
+    app.use("/loggerTest", passportCall("jwt"), authorization('admin'), loggerTest)
 
     socketServer.on("connection", socket => {
         console.log("New client connected")

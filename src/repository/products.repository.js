@@ -22,6 +22,10 @@ export default class ProductRepository {
         return await this.dao.getById(id)       
     }
 
+    getOneByID = async(id) => {
+        return await this.dao.getOneByID(id)
+    }
+
     delete = async (id) => {
         return await this.dao.delete(id)
     }

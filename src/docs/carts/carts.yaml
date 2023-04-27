@@ -1,0 +1,283 @@
+paths:
+  /api/carts:
+    post:
+      summary: Crea un nuevo carrito
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: El carrito fue creado satisfactoriamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+        "500":
+          description: Error interno del servidor, usualmente generado por un fallo de conexión con la base de datos
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene los productos almacenados en el carrito
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: ID del carrito que se desea solicitar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: El carrito se obtuvo satisfactoriamente de la base de datos
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+        "401":
+          description: Error de autenticación. Es necesario iniciar sesión para acceder a un carrito
+        "403":
+          description: Error de autorización. Los usuarios sólo pueden acceder a su propio carrito
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexión con la base de datos
+    put:
+      summary: Reemplaza el carrito por un array de productos
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: ID del carrito que se desea solicitar
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/replaceProducts"
+      responses:
+        "200":
+          description: El carrito fue modificado satisfactoriamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+        "400": 
+          description: Error en la petición. Usualmente se debe a la omisión de campos requeridos o a errores en los tipos de datos
+        "401":
+          description: Error de autenticación. Es necesario iniciar sesión para modificar un carrito
+        "403":
+          description: Error de autorización. Los usuarios sólo pueden modificar su propio carrito
+        "404":
+          description: El carrito no fue encontrado. Puede que haya sido eliminado o que el ID sea incorrecto
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexión con la base de datos
+    delete:
+      summary: Elimina el carrito seleccionado
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: ID del carrito que se desea solicitar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: El carrito fue eliminado con éxito
+        "401":
+          description: Error de autenticación. Es necesario iniciar sesión para modificar un carrito
+        "403":
+          description: Error de autorización. Los usuarios sólo pueden modificar su propio carrito
+        "404":
+          description: El carrito no fue encontrado. Puede que haya sido eliminado o que el ID sea incorrecto
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexión con la base de datos
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: Agrega un producto a un carrito
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: ID del carrito que se desea solicitar
+        schema:
+          $type: String
+      - name: pid
+        in: path
+        required: true
+        description: ID del producto que se desea solicitar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: El producto fue agregado al carrito
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+        "401":
+          description: Error de autenticación. Es necesario iniciar sesión para modificar un carrito
+        "403":
+          description: Error de autorización. Los usuarios sólo pueden modificar su propio carrito y no pueden agregar productos propios
+        "404":
+          description: El carrito y/o el producto no fueron encontrados. Puede que alguno haya sido eliminado o que un ID sea incorrecto
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexión con la base de datos 
+    put:
+      summary: Modifica la cantidad del producto que se encuentra en el carrito
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: ID del carrito que se desea solicitar
+        schema:
+          $type: String
+      - name: pid
+        in: path
+        required: true
+        description: ID del producto que se desea solicitar
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateQuantity"
+      responses:
+        "200":
+          description: El producto fue agregado al carrito
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+        "401":
+          description: Error de autenticación. Es necesario iniciar sesión para modificar un carrito
+        "403":
+          description: Error de autorización. Los usuarios sólo pueden modificar su propio carrito y no pueden agregar productos propios
+        "404":
+          description: El carrito y/o el producto no fueron encontrados. Puede que alguno haya sido eliminado o que un ID sea incorrecto
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexión con la base de datos 
+    delete:
+      summary: Elimina un producto del carrito
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: ID del carrito que se desea solicitar
+        schema:
+          $type: String
+      - name: pid
+        in: path
+        required: true
+        description: ID del producto que se desea solicitar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: El producto fue agregado al carrito
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+        "401":
+          description: Error de autenticación. Es necesario iniciar sesión para modificar un carrito
+        "403":
+          description: Error de autorización. Los usuarios sólo pueden modificar su propio carrito y no pueden agregar productos propios
+        "404":
+          description: El carrito y/o el producto no fueron encontrados. Puede que alguno haya sido eliminado o que un ID sea incorrecto
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexión con la base de datos 
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Realiza la compra de los productos que se encuentran en el carrito
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: ID del carrito que se desea solicitar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: La compra fue realizada satisfactoriamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Ticket"
+        "400": 
+          description: Error en la petición. Usualmente se debe a la omisión de campos requeridos o a errores en los tipos de datos
+        "401":
+          description: Error de autenticación. Es necesario iniciar sesión para modificar un carrito
+        "403":
+          description: Error de autorización. Los usuarios sólo pueden modificar su propio carrito
+        "404":
+          description: El carrito no fue encontrado. Puede que haya sido eliminado o que el ID sea incorrecto
+        "500":
+          description: Error interno del servidor, usualmente generado por una query defectuosa o un fallo de conexión con la base de datos
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID autogenerado por Mongo
+        products:
+          type: Array
+          description: Array de productos agregados al carrito. Cada elemento es un objeto con las propiedades product (ObjectId que hace referencia al ID del producto) y quantity (la cantidad de dicho producto)
+      example:
+        _id: ObjectId("641b787a0ea53502047688d3")
+        products: [{product: 63d8b0707126efe3d18d1bb3, quantity: 1}]
+    Ticket:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID autogenerado por Mongo
+        code:
+          type: String
+          description: Código del ticket que se genera automáticamente
+        amount:
+          type: Number
+          description: Valor total de la compra
+        purchaser:
+          type: String
+          description: E-mail del usuario que realizó la compra
+        purchase_datetime:
+          type: String
+          description: Fecha de la compra
+      example:
+        _id: ObjectId("641bb6accdb2cde4c98b4c95")
+        code: 5e895fb8-c2a0-4653-b941-67ab37d2ad50
+        amount: 900
+        purchaser: test@gmail.com
+        purchase_datetime: "2023-03-23T02:17:16.693+00:00"      
+  requestBodies:
+    replaceProducts:
+      type: array
+      items:
+        type: object
+        properties:
+          product: String
+          quantity: Number
+        example:
+          product: 63d8b0707126efe3d18d1bb3
+          quantity: 2
+    updateQuantity:
+      type: object
+      properties:
+        quantity: Number
+      example:
+        quantity: 5

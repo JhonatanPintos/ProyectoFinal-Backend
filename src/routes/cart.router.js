@@ -1,6 +1,6 @@
 import { Router } from "express"
 import TicketModel from "../dao/mongo/models/ticket.model.js"
-import { CartService, ProductService } from "../repository/index.js"
+import { CartService, ProductService, UserService } from "../repository/index.js"
 import { authorization, passportCall } from "../utils.js"
 import { v4 as uuidv4 } from 'uuid';
 import CustomError from ".././errors/custom.errors.js"
@@ -20,7 +20,8 @@ router.get("/:id", async (req, res) => {
     const id = req.params.id
     const cart = await CartService.getByIdLean(id)
     const productsInCart = cart.products
-    res.render("cart", {productsInCart})
+    console.log(cart)
+    res.render("cart", {productsInCart, cart})
 })
 
 //POST (USER)

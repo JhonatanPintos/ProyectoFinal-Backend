@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { ProductService } from "../repository/index.js"
+import { ProductService, UserService } from "../repository/index.js"
 
 const router = Router()
 
@@ -25,8 +25,10 @@ router.get("/realtimeproducts", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     const id = req.params.id
-    const product = await ProductService.getById(id)
-    res.render("productDetail", product)
+    const idU = req.user.user._id
+    const user = await UserService.getOneByID(idU)
+    const product = await ProductService.getOneByID(id)
+    res.render("productDetail", {product, user: user})
 })
 
 //DELETE
@@ -35,11 +37,7 @@ router.delete("/:pid", async (req, res) => {
     const productDeleted = await ProductService.delete(id)
 
     req.io.emit('updatedProducts', await ProductService.get());
-    res.json({
-        status: "Success",
-        massage: "Product Deleted!",
-        productDeleted
-    })
+    res.json({status: "Success", massage: "Product Deleted!", productDeleted})
 })
 
 //POST
@@ -47,21 +45,14 @@ router.post("/", async (req, res) => {
     try {
         const product = req.body
         if (!product.title) {
-            return res.status(400).json({
-                message: "Error Falta el nombre del producto"
-            })
+            return res.status(400).json({message: "Error Falta el nombre del producto"})
         }
         const productAdded = await ProductService.create(product)
         req.io.emit('updatedProducts', await ProductService.get());
-        res.json({
-            status: "Success",
-            productAdded
-        })
+        res.json({status: "Success", productAdded})
     } catch (error) {
         req.logger.error(error)
-        res.json({
-            error
-        })
+        res.json({error})
     }
 })
 
@@ -72,10 +63,7 @@ router.put("/:pid", async (req, res) => {
 
     const product = await ProductService.update({_id: id}, productToUpdate)
     req.io.emit('updatedProducts', await ProductService.get());
-    res.json({
-        status: "Success",
-        product
-    })
+    res.json({status: "Success", product})
 })
 
 

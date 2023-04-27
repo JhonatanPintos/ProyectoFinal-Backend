@@ -14,7 +14,11 @@ const userSchema = new mongoose.Schema({
             ref: "carts"
         }
     },
-    role: { type: String, default: 'user' }
+    role: {
+        type: String,
+        enum: ["user", "premium", "admin"],
+        default: "user",
+      },
 })
 
 mongoose.set("strictQuery", false)

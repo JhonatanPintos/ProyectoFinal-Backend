@@ -25,6 +25,12 @@ export const generateToken = user => {
     return token
 }
 
+export const validateToken = (token) => {
+    return jwt.verify(token, config.jwtPrivateKey, function(err, decoded) {
+      return {err, decoded}
+    })
+  }
+
 export const extractCookie = req => {
     return (req && req.cookies) ? req.cookies[config.jwtCookieName] : null
 }

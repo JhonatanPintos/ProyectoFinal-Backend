@@ -32,6 +32,10 @@ export default class Product {
         return await ProductModel.findOne({_id: id})    
     }
 
+    getOneByID = async(id) => {
+        return await ProductModel.findById(id).lean().exec()
+    }
+
     delete = async (id) => {
         return await ProductModel.deleteOne({_id: id})
     }

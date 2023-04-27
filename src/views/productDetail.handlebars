@@ -1,14 +1,14 @@
 <div class="card text-center position-absolute top-50 start-50 translate-middle" style="width: 24rem; height: 20rem;">
   {{!-- <img src="..." class="card-img-top" alt="..."> --}}
   <div class="card-body">
-    <h5 class="card-title">{{title}}</h5>
-    <strong>Stock</strong> {{stock}} <br>
-    <strong>Precio </strong>${{price}} <br>
-    <strong>Categoría</strong> {{category}} <br>
+    <h5 class="card-title">{{product.title}}</h5>
+    <strong>Stock</strong> {{product.stock}} <br>
+    <strong>Precio </strong>${{product.price}} <br>
+    <strong>Categoría</strong> {{product.category}} <br>
     <strong>Description: </strong>
-    <p class="card-text">{{description}}</p>
+    <p class="card-text">{{product.description}}</p>
   </div>
-    <form class="card text-center" action="/api/carts/63dc3a34053dd3ab71540deb/product/{{_id}}" method="post">
+    <form class="card text-center" action="/api/carts/{{user.cart._id}}/product/{{product._id}}" method="post">
       <button id="addToCart" type="submit" class="btn btn-success">Agregar</button>
     </form>
     <a class="btn btn-danger" href="#" onClick="history.go(-1)">Volver</a>
