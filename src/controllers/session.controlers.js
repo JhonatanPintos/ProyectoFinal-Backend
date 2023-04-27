@@ -20,7 +20,6 @@ export const changePassword = async (req, res) => {
         ...user,
         password: createHash(newPassword)
       }
-  
       const newUser = await UserService.updateUser(uid, userData)
       res.json({status: "success", payload: newUser})
     } catch(error) {
