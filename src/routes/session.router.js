@@ -20,7 +20,9 @@ router.put("/forgotPassword/:uid/:token", changePassword);
 
 // Vista de asd
 router.get('/forgotPassword/:uid/:token', (req, res) => {
-    res.render('sessions/changePassword')
+    const uid = req.params.uid
+    const token = req.params.token
+    res.render('sessions/changePassword', {uid: uid, token: token})
 })
 
 //Profile

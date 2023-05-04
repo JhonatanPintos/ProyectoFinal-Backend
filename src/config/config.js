@@ -9,5 +9,6 @@ export default {
     mongoDBName: process.env.MONGO_DB_NAME,
     USER_MAIL: process.env.USER_MAIL,
     USER_PASS: process.env.USER_PASS,
-    BASE_URL: process.env.BASE_URL
+    BASE_URL: process.env.BASE_URL,
+    TEST_MONGO_URI: process.env.TEST_MONGO_URI
 }

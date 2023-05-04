@@ -47,4 +47,8 @@ export default class User {
     getOneByEmail = async(email) => {
         return await UserModel.findOne({ email }).lean().exec()
     }
+
+    update = async (id, data) => {
+        return await UserModel.updateOne({ _id: id }, data)
+    }
 }

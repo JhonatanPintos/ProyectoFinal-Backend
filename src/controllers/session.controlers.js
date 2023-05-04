@@ -5,6 +5,7 @@ import { validateToken, isValidPassword as comparePasswords, createHash } from "
 export const changePassword = async (req, res) => {
     try { 
       const { uid, token } = req.params
+      console.log(req.params)
       const { newPassword, confirmation } = req.body
       const { err } = validateToken(token)
       const user = await UserService.getOneByID(uid)
