@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import chai from "chai";
 import config from "../src/config/config.js";
-import Cart from "../src/DAO/mongo/carts.mongo.js";
+import Cart from "../src/dao/mongo/carts.mongo.js";
 
 mongoose.connect(config.TEST_MONGO_URI);
 const expect = chai.expect;

@@ -16,7 +16,7 @@ router.get('/forgotPassword', (req, res) => {
 })
 
 //Reset Password
-router.put("/forgotPassword/:uid/:token", changePassword);
+router.post("/forgotPassword/:uid/:token", changePassword);
 
 // Vista de asd
 router.get('/forgotPassword/:uid/:token', (req, res) => {

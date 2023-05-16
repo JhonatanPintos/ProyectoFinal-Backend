@@ -1,17 +1,21 @@
 import UserModel from "./models/user.model.js"
 import CustomError from "../../errors/custom.errors.js"
 import EErros from "../../errors/enums.js"
-import { generateUserErrorInfoAge, generateUserErrorInfoFirstName, generateUserErrorInfoLastName } from "../../errors/info.js"
+import {
+    generateUserErrorInfoAge,
+    generateUserErrorInfoFirstName,
+    generateUserErrorInfoLastName
+} from "../../errors/info.js"
 
 export default class User {
     constructor() {}
 
-    get = async() => {
+    get = async () => {
         return await UserModel.find().lean().exec()
     }
 
-    create = async(data) => {
-        if(!data.first_name){
+    create = async (data) => {
+        if (!data.first_name) {
             CustomError.createError({
                 name: "FirstName creation error",
                 cause: generateUserErrorInfoFirstName(),
@@ -20,7 +24,7 @@ export default class User {
             })
         }
 
-        if(!data.last_name){
+        if (!data.last_name) {
             CustomError.createError({
                 name: "LastName creation error",
                 cause: generateUserErrorInfoLastName(),
@@ -29,7 +33,7 @@ export default class User {
             })
         }
 
-        if(!data.age){
+        if (!data.age) {
             CustomError.createError({
                 name: "Age creation error",
                 cause: generateUserErrorInfoAge(),
@@ -37,18 +41,32 @@ export default class User {
                 code: EErros.INVALID_TYPES_ERROR
             })
         }
-       return await UserModel.create(data)
+        return await UserModel.create(data)
     }
 
-    getOneByID = async(id) => {
+    getOneByID = async (id) => {
         return await UserModel.findById(id).lean().exec()
     }
 
-    getOneByEmail = async(email) => {
-        return await UserModel.findOne({ email }).lean().exec()
+    getOneByEmail = async (email) => {
+        return await UserModel.findOne({
+            email
+        }).lean().exec()
     }
 
     update = async (id, data) => {
-        return await UserModel.updateOne({ _id: id }, data)
+        return await UserModel.updateOne({
+            _id: id
+        }, data)
+    }
+
+    updatePass = async (id, password) => {
+        return await UserModel.updateOne({
+            _id: id
+        }, {
+            $set: {
+                password: password
+            }
+        })
     }
 }

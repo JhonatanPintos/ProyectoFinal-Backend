@@ -5,24 +5,24 @@ export default class ProductRepository {
         this.dao = dao
     }
 
-    get = async() => {
+    get = async () => {
         return await this.dao.get()
     }
 
-    getPaginate = async(search, options) => {
+    getPaginate = async (search, options) => {
         return await this.dao.getPaginate(search, options)
     }
 
-    create = async(data) => {
+    create = async (data) => {
         const dataToInsert = new ProductDTO(data)
         return await this.dao.create(dataToInsert)
     }
 
     getById = async (id) => {
-        return await this.dao.getById(id)       
+        return await this.dao.getById(id)
     }
 
-    getOneByID = async(id) => {
+    getOneByID = async (id) => {
         return await this.dao.getOneByID(id)
     }
 
@@ -39,7 +39,7 @@ export default class ProductRepository {
         return await this.dao.find().lean().exec()
     }
 
-    createMock = async(data) => {
+    createMock = async (data) => {
         return await this.dao.create(data)
     }
 }
