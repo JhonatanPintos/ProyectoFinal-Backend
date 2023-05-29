@@ -102,7 +102,7 @@ router.post("/:cid/purchase", passportCall('jwt'), authorization('user'), async 
 })
 
 //DELETE (ADMIN)
-router.delete("/:cid/product/:pid", authorization('admin'), async (req, res) => {
+router.delete("/:cid/product/:pid", async (req, res) => {
     const cartID = req.params.cid
     const productID = req.params.pid
 

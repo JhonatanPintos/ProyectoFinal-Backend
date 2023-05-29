@@ -1,7 +1,6 @@
-const handleSubmit = async (id) => {
+const deleteProd = async (id) => {
 
-    console.log("click")
-    const deleteProduct = await fetch(`/api/carts/64751a750b7b87c31446d51b/product/${id}`, {
+    const deleteProduct = await fetch(`/api/products/${id}`, {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json',

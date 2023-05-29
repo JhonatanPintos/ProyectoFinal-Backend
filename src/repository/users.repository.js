@@ -38,6 +38,10 @@ export default class UserRepository {
         return await this.dao.updatePass(id, password)
     }
 
+    changeUserRole = async(uid) => {
+        return await this.dao.changeUserRole(uid)
+    }
+
     sendMail = async (email) => {
         const user = await this.getOneByEmail(email)
         if (!user) {
@@ -61,4 +65,6 @@ export default class UserRepository {
 
         return await this.mail.send(email, "Restauración de contraseña", html)
     }
+
+
 }

@@ -69,4 +69,37 @@ export default class User {
             }
         })
     }
+
+    changeUserRole = async (uid) => {
+        const user = await UserModel.findOne({
+            _id: uid
+        });
+
+        switch (user.role) {
+            case "user":
+                await UserModel.updateOne({
+                    _id: uid
+                }, {
+                    $set: {
+                        role: "premium"
+                    }
+                });
+
+                return {
+                    status: "success", newRole: "premium"
+                };
+            case "premium":
+                await UserModel.updateOne({
+                    _id: uid
+                }, {
+                    $set: {
+                        role: "user"
+                    }
+                });
+
+                return {
+                    status: "success", newRole: "user"
+                };
+        }
+    };
 }

@@ -11,6 +11,7 @@ const productSchema = new mongoose.Schema({
     stock: Number,
     category: String,
     thumbnails: Array,
+    owner: Object
 })
 
 mongoose.set("strictQuery", false)

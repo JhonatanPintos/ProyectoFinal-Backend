@@ -38,3 +38,10 @@ export const changePassword = async (req, res) => {
       res.json({status: "error", error});
     }
   }
+
+  export const changeUserRole = async (req, res) => {
+    const uid = req.user.user;
+    const result = await UserService.changeUserRole(uid);
+
+    res.redirect("/session/current");
+};

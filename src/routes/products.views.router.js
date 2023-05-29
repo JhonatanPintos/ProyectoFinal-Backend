@@ -5,7 +5,7 @@ const router = Router()
 
 router.get("/", async (req, res) => {
 
-    const limit = req.query?.limit || 10
+    const limit = req.query?.limit || 15
     const page = req.query?.page || 1
     const filter = req.query?.filter || ''
     const sortQuery = req.query?.sort || ''

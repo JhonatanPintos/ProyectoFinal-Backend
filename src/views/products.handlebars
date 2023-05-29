@@ -6,6 +6,8 @@
       <th scope="col">Categoria</th>
       <th scope="col">Price</th>
       <th scope="col">Stock</th>
+      <th scope="col">Owner</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   {{#each data.docs}}
@@ -16,6 +18,10 @@
       <td>{{category}}</td>
       <td>{{price}}</td>
       <td>{{stock}}</td>
+      <td>{{owner.email}}</td>
+      <td>
+      <button onclick="deleteProd('{{_id}}')" id="" class="btn btn-danger">X</button>
+      </td>
     </tr>
   </tbody>
   {{/each}}
