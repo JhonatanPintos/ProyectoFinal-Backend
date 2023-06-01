@@ -38,6 +38,10 @@ export default class UserRepository {
         return await this.dao.updatePass(id, password)
     }
 
+    updateUserConection = async (id, date) => {
+        return await this.dao.updateUserConection(id, date)
+    }
+
     changeUserRole = async(uid) => {
         return await this.dao.changeUserRole(uid)
     }

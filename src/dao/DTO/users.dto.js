@@ -9,5 +9,7 @@ export default class UserDTO {
         this.password = user.password
         this.role = user.role
         this.cart = user.cart
+        this.dodocuments = user.documents || []
+        this.lastConecction = user.lastConecction
     }
 }

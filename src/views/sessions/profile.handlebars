@@ -9,3 +9,18 @@
 <form action="/session/changeUserRole" method="get">
   <button type="submit">Update Rol</button>
 </form>
+
+<form action="/session/changeUserRole" method="get">
+  <input type="file">
+  <button type="submit">subir imagen prod</button>
+</form>
+
+<form action="/api/users/{{user._id}}/documents" method="post" enctype="multipart/form-data">
+  <input type="file" name="MyFile">
+  <button type="submit">subir documento</button>
+</form>
+
+<form action="/session/changeUserRole" method="get">
+  <input type="file">
+  <button type="submit">subir imagen de user</button>
+</form>

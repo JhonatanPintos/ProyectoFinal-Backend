@@ -19,6 +19,14 @@ const userSchema = new mongoose.Schema({
         enum: ["user", "premium", "admin"],
         default: "user",
       },
+    documents: {
+        type: [{
+            name: String,
+            reference: String
+        }],
+        default: []
+    },
+    lastConecction: Date
 })
 
 mongoose.set("strictQuery", false)

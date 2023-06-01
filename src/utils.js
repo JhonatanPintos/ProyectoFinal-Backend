@@ -84,12 +84,3 @@ export const validateTokenAndGetID = (req, res, next) => {
         next();
     })
 }
-
-export const passwordFormatIsValid = (password) => {
-    const message = {};
-    if (password.length < 8) message.large = "Debe tener como minimo 8 caracteres.";
-    if (!(/[A-Z]/.test(password))) message.mayus = "Debe contener al menos una mayuscula.";
-    if (!(/[0-9]/.test(password))) message.number = "Debe contener algun numero.";
-
-    return message;
-}

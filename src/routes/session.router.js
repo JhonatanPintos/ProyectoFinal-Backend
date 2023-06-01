@@ -1,20 +1,9 @@
-import {
-    Router
-} from "express";
+import {Router} from "express";
 import passport from "passport";
 import config from "../config/config.js";
-import {
-    UserService
-} from "../repository/index.js";
-import {
-    authorization,
-    passportCall
-} from "../utils.js";
-import {
-    changePassword,
-    sendRecoveryMail,
-    changeUserRole,
-} from "../controllers/session.controlers.js";
+import {UserService} from "../repository/index.js";
+import {authorization, passportCall} from "../utils.js";
+import {changePassword, sendRecoveryMail, changeUserRole} from "../controllers/session.controlers.js";
 
 const router = Router()
 
@@ -87,6 +76,9 @@ router.post('/login', passport.authenticate('login', {
             error: "Invalid credentiales"
         })
     }
+    const user = req.user
+    const dateU = user.lastConecction = new Date()
+    await UserService.updateUserConection(user._id, dateU)
     res.cookie(config.jwtCookieName, req.user.token).redirect('/products')
 
 })
@@ -102,8 +94,11 @@ router.get('/profile', (req, res) => {
 })
 
 // Cerrar Session
-router.get('/logout', (req, res) => {
+router.get('/logout', async (req, res) => {
     res.clearCookie(config.jwtCookieName).redirect('/session/login');
+    const user = req.user
+    const dateU = user.lastConecction = new Date()
+    await UserService.updateUserConection(user._id, dateU)
 })
 
 //Para iniciar con GitHub

@@ -8,6 +8,7 @@ import { passportCall, authorization } from "./utils.js";
 import errorMiddlewares from "./errors/errorMiddlewares.js"
 import mocksRouter from "./routes/mocks.router.js"
 import loggerTest from "./routes/loggerTest.js"
+import usersRouter from "./routes/users.router.js"
 
 const run = (socketServer, app) => {
     app.use((req, res, next) => {
@@ -22,6 +23,7 @@ const run = (socketServer, app) => {
     app.use("/api/chat", passportCall("jwt"), chatRouter)
     app.use("/api/mockingProducts", passportCall("jwt"), authorization('admin'), mocksRouter)
     app.use("/loggerTest", passportCall("jwt"), authorization('admin'), loggerTest)
+    app.use("/api/users", usersRouter)
 
     socketServer.on("connection", socket => {
         console.log("New client connected")

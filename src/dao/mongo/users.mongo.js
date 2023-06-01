@@ -49,57 +49,25 @@ export default class User {
     }
 
     getOneByEmail = async (email) => {
-        return await UserModel.findOne({
-            email
-        }).lean().exec()
+        return await UserModel.findOne({email}).lean().exec()
     }
 
     update = async (id, data) => {
-        return await UserModel.updateOne({
-            _id: id
-        }, data)
+        return await UserModel.updateOne({_id: id}, data)
     }
 
     updatePass = async (id, password) => {
-        return await UserModel.updateOne({
-            _id: id
-        }, {
-            $set: {
-                password: password
-            }
-        })
+        return await UserModel.updateOne({_id: id}, {$set: {password: password}})
+    }
+
+    updateUserConection = async (id, date) => {
+        return await UserModel.updateOne({_id: id}, {$set: {lastConecction: date}})
     }
 
     changeUserRole = async (uid) => {
-        const user = await UserModel.findOne({
-            _id: uid
-        });
-
-        switch (user.role) {
-            case "user":
-                await UserModel.updateOne({
-                    _id: uid
-                }, {
-                    $set: {
-                        role: "premium"
-                    }
-                });
-
-                return {
-                    status: "success", newRole: "premium"
-                };
-            case "premium":
-                await UserModel.updateOne({
-                    _id: uid
-                }, {
-                    $set: {
-                        role: "user"
-                    }
-                });
-
-                return {
-                    status: "success", newRole: "user"
-                };
-        }
+        const user = await UserModel.findOne({_id: uid});
+        console.log(user)
+        await UserModel.updateOne({_id: uid}, {$set: {role: "premium"}});
+        return {status: "success", newRole: "premium"};
     };
 }
