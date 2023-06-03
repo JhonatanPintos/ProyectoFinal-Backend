@@ -77,7 +77,7 @@ router.post('/login', passport.authenticate('login', {
         })
     }
     const user = req.user
-    const dateU = user.lastConecction = new Date()
+    const dateU = user.lastConecction = Date.now()
     await UserService.updateUserConection(user._id, dateU)
     res.cookie(config.jwtCookieName, req.user.token).redirect('/products')
 
@@ -96,9 +96,6 @@ router.get('/profile', (req, res) => {
 // Cerrar Session
 router.get('/logout', async (req, res) => {
     res.clearCookie(config.jwtCookieName).redirect('/session/login');
-    const user = req.user
-    const dateU = user.lastConecction = new Date()
-    await UserService.updateUserConection(user._id, dateU)
 })
 
 //Para iniciar con GitHub

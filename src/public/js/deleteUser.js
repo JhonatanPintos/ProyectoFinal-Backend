@@ -1,6 +1,6 @@
-const handleSubmit = async (cid, pid) => {
+const handleSubmit = async (id) => {
 
-    const deleteProduct = await fetch(`/api/carts/${cid}/product/${pid}`, {
+    const deleteProduct = await fetch(`/api/users/${id}`, {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json',

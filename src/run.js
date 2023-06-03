@@ -23,7 +23,7 @@ const run = (socketServer, app) => {
     app.use("/api/chat", passportCall("jwt"), chatRouter)
     app.use("/api/mockingProducts", passportCall("jwt"), authorization('admin'), mocksRouter)
     app.use("/loggerTest", passportCall("jwt"), authorization('admin'), loggerTest)
-    app.use("/api/users", usersRouter)
+    app.use("/api/users", passportCall("jwt"), usersRouter)
 
     socketServer.on("connection", socket => {
         console.log("New client connected")

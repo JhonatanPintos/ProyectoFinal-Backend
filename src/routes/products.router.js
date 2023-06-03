@@ -1,5 +1,7 @@
 import {Router} from "express"
 import { ProductService, UserService } from "../repository/index.js"
+import { uploaderProduct } from "../config/multer.js"
+import { passportCall } from "../utils.js"
 
 const router = Router()
 
@@ -48,15 +50,18 @@ router.delete("/:pid", async (req, res) => {
 })
 
 //POST
-router.post("/", async (req, res) => {
+router.post("/", passportCall("jwt"), uploaderProduct, async (req, res) => {
     try {
         const user = req.user.user
         const product = req.body
+        const imgDestination = req.file.destination
+        const imgName = req.file.filename
         product.owner = {
             role: user.role,
             email: user.email,
             id: user._id
         }
+        product.thumbnails = imgDestination + imgName
         if (!product.title) {
             return res.status(400).json({message: "Error Falta el nombre del producto"})
         }

@@ -66,8 +66,36 @@ export default class User {
 
     changeUserRole = async (uid) => {
         const user = await UserModel.findOne({_id: uid});
-        console.log(user)
         await UserModel.updateOne({_id: uid}, {$set: {role: "premium"}});
         return {status: "success", newRole: "premium"};
     };
+
+    delete = async (id) => {
+        return await UserModel.deleteOne({_id: id})
+    }
+
+    deleteMany = async (cond) => {
+        return await UserModel.deleteMany(cond)
+    }
+
+    addDoc = async (uid, docName, path) =>{
+        try {
+            const user = await UserModel.findOne({_id: uid});
+            user.documents.push({name: docName, reference: path});
+            user.save();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    updateDoc = async (uid, index, docName, path) =>{
+        try {
+            const user = await UserModel.findOne({_id: uid});
+            user.documents[index] = {name: docName, reference: path};
+            user.save();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 }

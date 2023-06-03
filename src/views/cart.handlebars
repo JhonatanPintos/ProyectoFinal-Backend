@@ -8,7 +8,6 @@
       <th scope="col">Price</th>
       <th scope="col">Stock</th>
       <th scope="col">Quantity</th>
-      <th scope="col">TEST</th>
       <th scope="col"></th>
     </tr>
   </thead>
@@ -20,9 +19,8 @@
       <td>{{id.price}}</td>
       <td>{{id.stock}}</td>
       <td>{{quantity}}</td>
-      <td>{{cart._id}}</td>
       <td>
-      <button onclick="handleSubmit('{{id._id}}')" id="" class="btn btn-danger">X</button>
+      <button onclick="handleSubmit('{{../cart._id}}', '{{id._id}}')" id="" class="btn btn-danger">X</button>
       </td>
     </tr>
   </tbody>

@@ -1,39 +1,71 @@
 import multer from "multer";
 import __dirname from "../utils.js";
+import { UserService } from "../repository/index.js";
+
+function fileFilter(req, file, cb){
+
+    if (!file.originalname.includes('.pdf') && !file.originalname.includes('.png')) return cb(null, false);
+    
+    if(file.originalname.includes('.pdf')){
+        if (!file.originalname.includes('identificacion') && !file.originalname.includes('comprobante de domicilio') && !file.originalname.includes('comprobante de estado de cuenta')){
+            return cb(null, false);
+        }
+    }
+    if (file.originalname.includes('.png')) {
+        if (!file.originalname.includes('profile')) {
+            return cb(null, false);
+        }
+    }
+    return cb(null, true);
+}
 
 const storageMulterProfiles = multer.diskStorage({
     destination: function(req, file, cb) {
-        const uid = req.user.user._id
-        cb(null, `${__dirname}/images/profiles`)
+        file.originalname = file.originalname.replace(/\s/g, "");
+        cb(null, `files/profileImg/`)
     },
-    filename: function(req, file, cb) {
-        cb(null, `${uid}.png`)
+    filename: async function(req, file, cb) {
+        const uid = req.user.user._id
+        const docName = `${uid}-${file.originalname}`
+        const reference = `documents/${docName}`
+        const name = file.originalname.split(".")
+        await UserService.addDocs(uid, name[0], reference)
+        cb(null, docName)
     }
 })
 
-export const uploaderProfile = multer({storageMulterProfiles})
+export const uploaderProfile = multer({storage: storageMulterProfiles, fileFilter})
 
 const storageMulterDocuments = multer.diskStorage({
     destination: function(req, file, cb) {
-        const uid = req.user.user._id
-        cb(null, `${__dirname}/documents/${uid}`)
-        console.log("funca")
+        file.originalname = file.originalname.replace(/\s/g, "");
+        cb(null, `files/documents/`)
     },
-    filename: function(req, file, cb) {
-        cb(null, file.originalname)
-        console.log("funca")
+    filename: async function(req, file, cb) {
+        const uid = req.user.user._id
+        const docName = `${uid}-${file.originalname}`
+        const reference = `documents/${docName}`
+        const name = file.originalname.split(".")
+        await UserService.addDocs(uid, name[0], reference)
+        cb(null, docName)
     }
 })
 
-export const uploaderDocument = multer({storageMulterDocuments}).any
+export const uploaderDocument = multer({storage: storageMulterDocuments, fileFilter}).any("file")
 
 const storageMulterProducts = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, `${__dirname}/images/products`)
+        file.originalname = file.originalname.replace(/\s/g, "");
+        cb(null, `files/productsImg/`)
     },
-    filename: function(req, file, cb) {
-        cb(null, file.originalname)
+    filename: async function(req, file, cb) {
+        const uid = req.user.user._id
+        const docName = `${uid}-${file.originalname}`
+        const reference = `productsImg/${docName}`
+        const name = file.originalname.split(".")
+        await UserService.addDocs(uid, name[0], reference)
+        cb(null, docName)
     }
 })
 
-export const uploaderProduct = multer({storageMulterProducts})
+export const uploaderProduct = multer({storage: storageMulterProducts}).single("file")

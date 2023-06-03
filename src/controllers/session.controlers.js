@@ -41,7 +41,21 @@ export const changePassword = async (req, res) => {
 
   export const changeUserRole = async (req, res) => {
     const uid = req.user.user;
-    const result = await UserService.changeUserRole(uid);
+    const documents = uid.documents
 
-    res.redirect("/session/current");
+    if(!documents){
+      console.log("Datos Vacios")
+    }else{
+
+      const identificacion = documents.find(({ name }) => name === "identificacion")
+      const comprobantedeestadodecuenta = documents.find(({ name }) => name === "comprobantedeestadodecuenta")
+      const comprobantededomicilio = documents.find(({ name }) => name === "comprobantededomicilio")
+      
+      if(!comprobantededomicilio || !identificacion || !comprobantedeestadodecuenta){
+        console.log("Faltan Datos")
+      }else {
+        await UserService.changeUserRole(uid)
+        res.redirect("/session/current");
+      }
+    }
 };

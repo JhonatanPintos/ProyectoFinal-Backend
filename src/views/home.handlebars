@@ -1,7 +1,7 @@
 <h1>Agregar productos</h1>
 <br>
 
-<form id="addForm">
+<form id="addForm" action="/api/products" method="post" enctype="multipart/form-data">
     <label for="title">Nombre del prodcuto</label>
     <input type="text" name="title" id="title">
     <br>
@@ -13,7 +13,7 @@
     <input type="text" name="price" id="price">
     <br>
     <label for="thumbnail">Foto del prodcuto</label>
-    <input type="text" name="thumbnail" id="thumbnail">
+    <input type="file" name="file" id="thumbnail">
     <br>
     <label for="stock">Stock del prodcuto</label>
     <input type="text" name="stock" id="stock">
@@ -25,4 +25,3 @@
 </form>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="/js/home.js"></script>

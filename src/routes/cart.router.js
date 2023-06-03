@@ -20,7 +20,7 @@ router.get("/:id", async (req, res) => {
     const id = req.params.id
     const cart = await CartService.getByIdLean(id)
     const productsInCart = cart.products
-    console.log(cart)
+    //console.log(cart)
     res.render("cart", {productsInCart, cart})
 })
 
