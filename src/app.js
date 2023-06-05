@@ -2,9 +2,7 @@ import express from "express";
 import handlebars from "express-handlebars"
 import { Server } from "socket.io";
 import __dirname from "./utils.js"
-//import mongoose from "mongoose";
 import run from "./run.js";
-//import MongoStore from "connect-mongo";
 import session from "express-session";
 import initializePassport from "./config/passport.config.js";
 import cookieParser from "cookie-parser";
@@ -12,6 +10,7 @@ import passport from "passport";
 import { addLogger } from "./errors/logger.js";
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from "swagger-ui-express"
+import config from "./config/config.js";
 
 const app = express()
 
@@ -52,7 +51,7 @@ initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
-    const httpServer = app.listen(8080, () => console.log("Listening..."))
+    const httpServer = app.listen(config.PORT, () => console.log("Listening..."))
     const socketServer = new Server(httpServer)
     httpServer.on("error", () => console.log("ERROR"))
     run(socketServer, app)

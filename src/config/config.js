@@ -11,5 +11,6 @@ export default {
     USER_PASS: process.env.USER_PASS,
     BASE_URL: process.env.BASE_URL,
     TEST_MONGO_URI: process.env.TEST_MONGO_URI,
-    MERCADOPAGO: process.env.MERCADOPAGO
+    MERCADOPAGO: process.env.MERCADOPAGO,
+    PORT: process.env.PORT
 }

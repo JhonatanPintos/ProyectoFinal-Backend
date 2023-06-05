@@ -62,7 +62,6 @@ export const changePassword = async (req, res) => {
 };
 
 export const login =  async (req, res) => {
-  console.log("Ingreso")
   if (!req.user) {
       return res.status(400).send({status: "error", error: "Invalid credentiales"})
     }
