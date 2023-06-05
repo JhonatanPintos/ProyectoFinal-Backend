@@ -27,14 +27,14 @@ const storageMulterProfiles = multer.diskStorage({
     filename: async function(req, file, cb) {
         const uid = req.user.user._id
         const docName = `${uid}-${file.originalname}`
-        const reference = `documents/${docName}`
+        const reference = `profileImg/${docName}`
         const name = file.originalname.split(".")
         await UserService.addDocs(uid, name[0], reference)
         cb(null, docName)
     }
 })
 
-export const uploaderProfile = multer({storage: storageMulterProfiles, fileFilter})
+export const uploaderProfile = multer({storage: storageMulterProfiles, fileFilter}).single("imgProf")
 
 const storageMulterDocuments = multer.diskStorage({
     destination: function(req, file, cb) {

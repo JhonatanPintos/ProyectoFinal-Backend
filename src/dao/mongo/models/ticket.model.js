@@ -9,7 +9,11 @@ const ticketSchema = new mongoose.Schema({
         default: Date.now
     },
     amount: Number,
-    purchaser: String
+    purchaser: String,
+    status : {
+        type : String,
+        default:"Pendiente"
+    }
 })
 
 mongoose.set("strictQuery", false)

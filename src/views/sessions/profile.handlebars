@@ -15,7 +15,8 @@
   <button type="submit">subir documento</button>
 </form>
 
-<form action="/session/changeUserRole" method="get">
-  <input type="file">
+<form action="/api/users/imgProfile" method="post" enctype="multipart/form-data">
+  <input type="file" name="imgProf">
   <button type="submit">subir imagen de user</button>
 </form>
+<a href="http://127.0.0.1:8080/products"><button>Volver al Inicio</button></a>

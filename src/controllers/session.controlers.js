@@ -1,3 +1,4 @@
+import config from "../config/config.js";
 import { UserService } from "../repository/index.js";
 import { validateToken, isValidPassword as comparePasswords, createHash } from "../utils.js";
 
@@ -59,3 +60,19 @@ export const changePassword = async (req, res) => {
       }
     }
 };
+
+export const login =  async (req, res) => {
+  if (!req.user) {
+      return res.status(400).send({status: "error", error: "Invalid credentiales"})
+    }
+  const user = req.user
+  const dateU = user.lastConecction = Date.now()
+  await UserService.updateUserConection(user._id, dateU)
+  res.cookie(config.jwtCookieName, req.user.token).redirect('/products')
+}
+
+export const current = async (req, res) => {
+  const id = req.user.user._id
+  const user = await UserService.getOneByID(id)
+  res.render('sessions/profile', {user: user})
+}

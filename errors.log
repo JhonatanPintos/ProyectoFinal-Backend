@@ -38,3 +38,21 @@ error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
 error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
 error: User No Logeado
 error: User No Logeado
+error: User No Logeado
+error: undefined {"_message":"products validation failed","errors":{"price":{"kind":"Number","message":"Cast to Number failed for value \"queso\" (type string) at path \"price\"","name":"CastError","path":"price","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"queso\"","value":"queso","valueType":"string"}}}
+error: undefined {"_message":"products validation failed","errors":{"price":{"kind":"Number","message":"Cast to Number failed for value \"queso\" (type string) at path \"price\"","name":"CastError","path":"price","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"queso\"","value":"queso","valueType":"string"}}}
+error: undefined {"_message":"products validation failed","errors":{"price":{"kind":"Number","message":"Cast to Number failed for value \"queso\" (type string) at path \"price\"","name":"CastError","path":"price","reason":{"actual":false,"code":"ERR_ASSERTION","expected":true,"generatedMessage":true,"operator":"=="},"stringValue":"\"queso\"","value":"queso","valueType":"string"}}}
+error: undefined
+error: undefined
+error: undefined
+error: User No Logeado
+error: User No Logeado
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined

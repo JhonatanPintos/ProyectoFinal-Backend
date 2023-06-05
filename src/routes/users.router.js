@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { uploaderDocument } from "../config/multer.js"
+import { uploaderDocument, uploaderProfile } from "../config/multer.js"
 import { UserService } from "../repository/index.js";
 import { authorization, passportCall } from "../utils.js";
 import { changeUserRoleAdm, deleteUser, deleteUserInactiv } from "../controllers/user.controlers.js";
@@ -17,7 +17,11 @@ router.get("/:uid", passportCall("jwt"), authorization("admin"), changeUserRoleA
 
 
 router.post("/documents", passportCall("jwt"), uploaderDocument, (req, res) => {
-    res.json({status: req.files})
+    res.json({status: "Success"})
+})
+
+router.post("/imgProfile", passportCall("jwt"), uploaderProfile, (req, res) => {
+    res.json({status: "Success"})
 })
 
 router.delete("/:uid", passportCall("jwt"), authorization("admin"), deleteUser)

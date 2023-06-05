@@ -1,98 +1,25 @@
 import {Router} from "express"
-import { ProductService, UserService } from "../repository/index.js"
 import { uploaderProduct } from "../config/multer.js"
 import { passportCall } from "../utils.js"
-import Mail from "../modules/mail.js"
+import { addProd, allProds, deleteProd, oneProd, realtimeproducts, updateProd } from "../controllers/product.controlers.js"
 
 const router = Router()
 
 //GET
-router.get("/", async (req, res) => {
-    const products = await ProductService.get()
-    const limit = req.query.limit
-    if (limit) {
-        res.json(products.slice(0, parseInt(limit)))
-    } else {
-        res.render("home", {
-            products
-        })
-    }
-})
+router.get("/", allProds)
 
-router.get("/realtimeproducts", async (req, res) => {
-    const products = await ProductService.get()
-    res.render('realTimeProducts', {
-        data: products
-    })
-})
+router.get("/realtimeproducts", realtimeproducts)
 
-router.get("/:id", async (req, res) => {
-    const id = req.params.id
-    const idU = req.user.user._id
-    const user = await UserService.getOneByID(idU)
-    const product = await ProductService.getOneByID(id)
-    res.render("productDetail", {product, user: user})
-})
+router.get("/:id", oneProd)
 
 //DELETE
-router.delete("/:pid", async (req, res) => {
-        const id = req.params.pid
-        const user = req.user.user
-        const productID = await ProductService.getOneByID(id)
-        const owner = productID.owner.id
-        if(owner == user._id || user.role == "admin"){
-            const productDeleted = await ProductService.delete(id) 
-            req.io.emit('updatedProducts', await ProductService.get());
-            if(productID.owner.email != "admin"){
-                const mail = new Mail()
-                const html = `
-                <h1>Su producto fue eliminado</h1>
-                <p>Hola 👋</p>
-                <p>Su producto ${productID.title} (ID: ${id}) ha sido eliminado</p>
-                `
-            mail.send(productID.owner.email, "Producto eliminado", html)
-            }
-            res.json({status: "Success", massage: "Product Deleted!", productDeleted})
-    }else{
-        req.logger.warning("No Owner")
-    }
-})
+router.delete("/:pid", deleteProd)
 
 //POST
-router.post("/", passportCall("jwt"), uploaderProduct, async (req, res) => {
-    try {
-        const user = req.user.user
-        const product = req.body
-        const imgDestination = req.file.destination
-        const imgName = req.file.filename
-        product.owner = {
-            role: user.role,
-            email: user.email,
-            id: user._id
-        }
-        product.thumbnails = imgDestination + imgName
-        if (!product.title) {
-            return res.status(400).json({message: "Error Falta el nombre del producto"})
-        }
-        const productAdded = await ProductService.create(product)
-        req.io.emit('updatedProducts', await ProductService.get());
-        res.redirect("/products")
-        //res.json({status: "Success", productAdded})
-    } catch (error) {
-        req.logger.error(error)
-        res.json({error})
-    }
-})
+router.post("/", passportCall("jwt"), uploaderProduct, addProd)
 
 //PUT
-router.put("/:pid", async (req, res) => {
-    const id = req.params.pid
-    const productToUpdate = req.body
-
-    const product = await ProductService.update({_id: id}, productToUpdate)
-    req.io.emit('updatedProducts', await ProductService.get());
-    res.json({status: "Success", product})
-})
+router.put("/:pid", updateProd)
 
 
 export default router

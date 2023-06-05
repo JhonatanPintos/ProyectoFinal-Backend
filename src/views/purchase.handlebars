@@ -1,7 +1,24 @@
-<h1>aca</h1>
-{{getTik}}
-<h1>{{getTik.code}}</h1>
-<form action="/api/carts/pagar" method="post">
-    <input type="hidden" name="total" value="{{getTik.amount}}">
-    <input type="submit" value="Pagar MercadoPago" class="btn btn-success"></input>
-</form>
+<h1>Tickets</h1>
+<div class="row gap-3 text-center">
+{{#each tickets}}
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+    <strong class="card-title">Codigo: </strong> {{code}} <br>
+    <strong>Precio total: </strong> ${{amount}} <br>
+    <strong>Email del Comprador: </strong>{{purchaser}} <br>
+    <strong>Estado: {{status}}</strong>
+  </div>
+  <div>
+    {{#if (eq status "Pendiente")}}
+    <form action="/api/carts/pagar" class="gap-3" method="post">
+        <input type="hidden" name="total" value="{{amount}}">
+        <input type="hidden" name="id" value="{{_id}}">
+        <input type="hidden" name="estado" value="{{status}}">
+        <input type="submit" value="Pagar Con MercadoPago" class="btn btn-success"></input>
+    </form>
+    {{/if}}
+    </div>
+</div>
+{{/each}}
+</div>
+<a href="http://127.0.0.1:8080/products"><button>Volver al Inicio</button></a>

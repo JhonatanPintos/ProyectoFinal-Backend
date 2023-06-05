@@ -38,6 +38,11 @@ app.engine("handlebars", handlebars.engine())
 app.set("views", __dirname + "/views")
 app.set("view engine", "handlebars")
 
+const { handlebars: hbs } = handlebars.create();
+hbs.registerHelper('eq', function (a, b) {
+    return a === b;
+});
+
 app.use(session({
     secret: "mysecret",
     resave: false,

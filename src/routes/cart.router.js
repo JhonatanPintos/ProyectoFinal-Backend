@@ -1,169 +1,49 @@
 import { Router } from "express"
-import { CartService, ProductService, UserService } from "../repository/index.js"
 import { authorization, passportCall } from "../utils.js"
-import { v4 as uuidv4 } from 'uuid';
-import CustomError from ".././errors/custom.errors.js"
-import EErros from ".././errors/enums.js"
-import { generateCartErrorInfoStock } from "../errors/info.js";
-import { Pagar } from "../controllers/cart.controlers.js";
+import { 
+    Pagar, 
+    addCart, 
+    addProdToCart, 
+    allCarts, 
+    approved, 
+    cambiarCantidadProd, 
+    cartID, 
+    changeAllProds, 
+    deleteAllProdInCart, 
+    deleteProdInCart, 
+    finalizarCompra, 
+    purchase 
+} from "../controllers/cart.controlers.js";
 
 const router = Router()
 
 //GET
-router.get("/", async (req, res) => {
-    const carts = await CartService.get()
-    res.json({ carts })
-})
+router.get("/", allCarts)
 
-router.get("/:id", async (req, res) => {
-    const id = req.params.id
-    const cart = await CartService.getByIdLean(id)
-    const productsInCart = cart.products
-    //console.log(cart)
-    res.render("cart", {productsInCart, cart})
-})
+router.get("/purchase", purchase)
 
-//POST (USER)
-router.post("/", authorization('user'), async (req, res) => {
-    const newCart = await CartService.create({})
+router.get("/approved", passportCall("jwt"), approved)
 
-    res.json({status: "Success", newCart})
-})
+router.get("/:id", cartID)
+
+//POST
+router.post("/", authorization('user'), addCart)
 
 router.post("/pagar", Pagar)
 
-router.post("/:cid/product/:pid", async (req, res) => {
-    const cartID = req.params.cid
-    const productID = req.params.pid
-    const quantity= req.body.quantity || 1
-    try{
-        const cart = await CartService.getById(cartID)
-        const infoProd = await ProductService.getById(productID)
-        if(infoProd.stock < quantity){
-            await CustomError.createError({
-                name: "Add product error",
-                cause: generateCartErrorInfoStock(infoProd),
-                message: "Error dont have Stock",
-                code: EErros.INVALID_TYPES_ERROR
-            })
-        }
-    
-        let found = false
-        for (let i = 0; i < cart.products.length; i++) {
-            if (cart.products[i].id._id == productID) {
-                
-                cart.products[i].quantity++
-                found = true
-                break
-            }
-        }
-        if (found == false) {
-            cart.products.push({ id: productID, quantity})
-        }
-        
-            await cart.save()
-    } catch(error){
-        req.logger.error(error)
-        
-    }
+router.post("/:cid/product/:pid", addProdToCart)
 
+router.post("/:cid/purchase", passportCall('jwt'), finalizarCompra)
 
-    res.redirect(`/api/carts/${cartID}`)
-})
+//DELETE
+router.delete("/:cid/product/:pid", deleteProdInCart)
 
-router.post("/:cid/purchase", passportCall('jwt'), async (req, res) => {
-    const cartID = req.params.cid
-    const cart = await CartService.getById(cartID)
-    const userEmail = req.user.user.email
-    let totalPrice = 0
-    let code
-    const noStock = []
-    const comparation = cart.products
-    await Promise.all(comparation.map( async p => {
-        if(p.id.stock >= p.quantity){
-            p.id.stock -= p.quantity;
-            ProductService.update(p.id._id, p.id);
-            totalPrice += p.id.price * p.quantity;
-            const productIDX = comparation.findIndex(item => item.id._id == p.id._id)
-            comparation.splice(productIDX, 1)
-            await cart.save()
-        } else {
-            noStock.push({
-                title: p.id.title,
-                price: p.id.price,
-                quantity: p.quantity
-            })
-        }
-    }))
-     if(totalPrice > 0){
-      await CartService.createTik({
-          purchaser : userEmail,
-          amount : totalPrice,
-          code: code = uuidv4()
-        })
-    }
-    const getTik = await CartService.getTik(code)
-    res.render("purchase", {getTik})
-})
-
-//DELETE (ADMIN)
-router.delete("/:cid/product/:pid", async (req, res) => {
-    const cartID = req.params.cid
-    const productID = req.params.pid
-
-    const cart = await CartService.getById(cartID)
-    if(!cart) return res.status(404).json({status: "error", error: "Cart Not Found"})
-
-    const productIDX = cart.products.findIndex(p => p.id._id == productID)
-
-    if(productIDX < 0) return res.status(404).json({status: "error", error: "Product Not Found on Cart"})
-
-    cart.products.splice(productIDX, 1)
-    await cart.save()
-
-    res.json({status: "Success", cart})
-})
-
-router.delete("/:cid", authorization('admin'), async (req, res) => {
-    const cartID = req.params.cid
-    const cart = await CartService.getById(cartID)
-    if(!cart) return res.status(404).json({status: "error", error: "Cart Not Found"})
-
-    cart.products = []
-    await cart.save()    
-
-    res.json({status: "Success", cart})
-})
+router.delete("/:cid", authorization('admin'), deleteAllProdInCart)
 
 //PUT ADMIN
-router.put("/:cid/product/:pid", authorization('admin'), async (req, res) => {
-    const cartID = req.params.cid
-    const productID = req.params.pid
-    const newQuantity = req.body.quantity
+router.put("/:cid/product/:pid", authorization('admin'), cambiarCantidadProd)
 
-    const cart = await CartService.getById(cartID)
-    if(!cart) return res.status(404).json({status: "error", error: "Cart Not Found"})
-
-    const productIDX = cart.products.find(p => p.id._id == productID)
-    productIDX.quantity = newQuantity
-
-    await cart.save()
-
-    res.json({status: "Success", cart})
-})
-
-router.put("/:cid", authorization('admin'), async (req, res) => {
-    const cartID = req.params.cid
-    const cartUpdate = req.body
-
-    const cart = await CartService.getById(cartID)
-    if(!cart) return res.status(404).json({status: "error", error: "Cart Not Found"})
-
-    cart.products = cartUpdate
-    await cart.save()
-
-    res.json({status: "Success", cart})
-})
+router.put("/:cid", authorization('admin'), changeAllProds)
 
 
 export default router

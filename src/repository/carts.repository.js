@@ -14,6 +14,10 @@ export default class CartRepository {
         return await this.dao.create(dataToInsert)
     }
 
+    update = async(id, data) => {
+        return await this.dao.update(id, data)     
+    }
+
     getById = async (id) => {
         return await this.dao.getById(id)
     }
@@ -28,5 +32,13 @@ export default class CartRepository {
 
     getTik = async(code) => {
         return await this.dao.getTik(code)     
+    }
+
+    getTikEmail = async(purchaser) => {
+        return await this.dao.getTikEmail(purchaser)     
+    }
+
+    updateTik = async(id, data) => {
+        return await this.dao.updateTik(id, data)
     }
 }

@@ -12,6 +12,10 @@ export default class Cart {
         return await CartModel.create(data)     
     }
 
+    update = async(id, data) => {
+        return await CartModel.findByIdAndUpdate(id, {products: data})     
+    }
+
     getById = async (id) => {
         return await CartModel.findOne({_id: id})
     }
@@ -28,4 +32,12 @@ export default class Cart {
         return await TicketModel.findOne({code}).lean().exec()
     }
 
+
+    getTikEmail = async(purchaser) => {
+        return await TicketModel.find({purchaser}).lean().exec()
+    }
+
+    updateTik = async(id, data) => {
+        return await TicketModel.updateOne({_id: id}, {$set: data})
+    }
 }
