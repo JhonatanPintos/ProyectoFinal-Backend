@@ -1,4 +1,4 @@
-import UserDTO from '../DAO/DTO/users.dto.js'
+import UserDTO from '../dao/DTO/users.dto.js'
 import CustomError from '../errors/custom.errors.js'
 import EErros from '../errors/enums.js'
 import {
