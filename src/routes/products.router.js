@@ -2,6 +2,7 @@ import {Router} from "express"
 import { ProductService, UserService } from "../repository/index.js"
 import { uploaderProduct } from "../config/multer.js"
 import { passportCall } from "../utils.js"
+import Mail from "../modules/mail.js"
 
 const router = Router()
 
@@ -40,9 +41,17 @@ router.delete("/:pid", async (req, res) => {
         const productID = await ProductService.getOneByID(id)
         const owner = productID.owner.id
         if(owner == user._id || user.role == "admin"){
-            console.log("si")
             const productDeleted = await ProductService.delete(id) 
             req.io.emit('updatedProducts', await ProductService.get());
+            if(productID.owner.email != "admin"){
+                const mail = new Mail()
+                const html = `
+                <h1>Su producto fue eliminado</h1>
+                <p>Hola 👋</p>
+                <p>Su producto ${productID.title} (ID: ${id}) ha sido eliminado</p>
+                `
+            mail.send(productID.owner.email, "Producto eliminado", html)
+            }
             res.json({status: "Success", massage: "Product Deleted!", productDeleted})
     }else{
         req.logger.warning("No Owner")
@@ -67,7 +76,8 @@ router.post("/", passportCall("jwt"), uploaderProduct, async (req, res) => {
         }
         const productAdded = await ProductService.create(product)
         req.io.emit('updatedProducts', await ProductService.get());
-        res.json({status: "Success", productAdded})
+        res.redirect("/products")
+        //res.json({status: "Success", productAdded})
     } catch (error) {
         req.logger.error(error)
         res.json({error})

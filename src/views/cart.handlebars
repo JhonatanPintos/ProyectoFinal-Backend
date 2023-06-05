@@ -26,4 +26,7 @@
   </tbody>
   {{/each}}
 </table>
+<form action="/api/carts/{{cart._id}}/purchase" method="post">
+  <button>Comprar</button>
+</form>
 <script src="/js/deleteCart.js"></script>

@@ -1,0 +1,7 @@
+<h1>aca</h1>
+{{getTik}}
+<h1>{{getTik.code}}</h1>
+<form action="/api/carts/pagar" method="post">
+    <input type="hidden" name="total" value="{{getTik.amount}}">
+    <input type="submit" value="Pagar MercadoPago" class="btn btn-success"></input>
+</form>

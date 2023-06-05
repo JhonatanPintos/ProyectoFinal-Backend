@@ -1,4 +1,5 @@
 import CartModel from "./models/cart.model.js"
+import TicketModel from "./models/ticket.model.js"
 
 export default class Cart {
     constructor() {}
@@ -8,8 +9,7 @@ export default class Cart {
     }
 
     create = async(data) => {
-        return await CartModel.create(data)
-        
+        return await CartModel.create(data)     
     }
 
     getById = async (id) => {
@@ -19,4 +19,13 @@ export default class Cart {
     getByIdLean = async (id) => {
         return await CartModel.findOne({_id: id}).lean()
     }
+
+    createTik = async(data) => {
+        return await TicketModel.create(data)     
+    }
+
+    getTik = async(code) => {
+        return await TicketModel.findOne({code}).lean().exec()
+    }
+
 }

@@ -32,3 +32,9 @@ error: errorTEST
 error: No Owner
 error: User No Logeado
 error: User No Logeado
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: User No Logeado
+error: User No Logeado

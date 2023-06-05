@@ -1,12 +1,11 @@
 import { Router } from "express"
-import TicketModel from "../dao/mongo/models/ticket.model.js"
 import { CartService, ProductService, UserService } from "../repository/index.js"
 import { authorization, passportCall } from "../utils.js"
 import { v4 as uuidv4 } from 'uuid';
 import CustomError from ".././errors/custom.errors.js"
 import EErros from ".././errors/enums.js"
 import { generateCartErrorInfoStock } from "../errors/info.js";
-
+import { Pagar } from "../controllers/cart.controlers.js";
 
 const router = Router()
 
@@ -30,6 +29,8 @@ router.post("/", authorization('user'), async (req, res) => {
 
     res.json({status: "Success", newCart})
 })
+
+router.post("/pagar", Pagar)
 
 router.post("/:cid/product/:pid", async (req, res) => {
     const cartID = req.params.cid
@@ -70,10 +71,12 @@ router.post("/:cid/product/:pid", async (req, res) => {
     res.redirect(`/api/carts/${cartID}`)
 })
 
-router.post("/:cid/purchase", passportCall('jwt'), authorization('user'), async (req, res) => {
+router.post("/:cid/purchase", passportCall('jwt'), async (req, res) => {
     const cartID = req.params.cid
     const cart = await CartService.getById(cartID)
+    const userEmail = req.user.user.email
     let totalPrice = 0
+    let code
     const noStock = []
     const comparation = cart.products
     await Promise.all(comparation.map( async p => {
@@ -92,13 +95,15 @@ router.post("/:cid/purchase", passportCall('jwt'), authorization('user'), async 
             })
         }
     }))
-     if(totalPrice > 0)
-      await TicketModel.create({
-          purchaser : req.user.user.email,
+     if(totalPrice > 0){
+      await CartService.createTik({
+          purchaser : userEmail,
           amount : totalPrice,
-          code: uuidv4()
-      })
-    res.json({status: "Success"})
+          code: code = uuidv4()
+        })
+    }
+    const getTik = await CartService.getTik(code)
+    res.render("purchase", {getTik})
 })
 
 //DELETE (ADMIN)
