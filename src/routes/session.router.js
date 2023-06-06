@@ -1,7 +1,6 @@
 import {Router} from "express";
 import passport from "passport";
-import config from "../config/config.js";
-import { passportCall } from "../utils.js";
+import { authorization, passportCall } from "../utils.js";
 import {changePassword, 
     sendRecoveryMail, 
     changeUserRole, 
@@ -27,7 +26,7 @@ router.get('/forgotPassword/:uid/:token', (req, res) => {
 })
 
 //Cambio de Rol
-router.get("/changeUserRole", passportCall("jwt"), changeUserRole)
+router.get("/changeUserRole", passportCall("jwt"), authorization("admin"), changeUserRole)
 
 //Profile
 router.get('/current', passportCall('jwt'), current)

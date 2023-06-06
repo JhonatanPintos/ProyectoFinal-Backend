@@ -27,7 +27,7 @@ router.get("/approved", passportCall("jwt"), approved)
 router.get("/:id", cartID)
 
 //POST
-router.post("/", authorization('user'), addCart)
+router.post("/", addCart)
 
 router.post("/pagar", Pagar)
 
@@ -36,7 +36,7 @@ router.post("/:cid/product/:pid", addProdToCart)
 router.post("/:cid/purchase", passportCall('jwt'), finalizarCompra)
 
 //DELETE
-router.delete("/:cid/product/:pid", deleteProdInCart)
+router.delete("/:cid/product/:pid", authorization(["admin", "premium"]), deleteProdInCart)
 
 router.delete("/:cid", authorization('admin'), deleteAllProdInCart)
 

@@ -12,10 +12,9 @@ router.get("/", passportCall("jwt"), authorization("admin"), async (req, res) =>
     res.render("users", {users})
 })
 
-router.get("/delete", passportCall("jwt"), deleteUserInactiv)
+router.get("/delete", passportCall("jwt"), authorization("admin"), deleteUserInactiv)
 
 router.get("/:uid", passportCall("jwt"), authorization("admin"), changeUserRoleAdm)
-
 
 router.post("/documents", passportCall("jwt"), uploaderDocument, logout)
 
