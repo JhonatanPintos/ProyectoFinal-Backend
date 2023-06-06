@@ -36,7 +36,7 @@ router.post("/:cid/product/:pid", addProdToCart)
 router.post("/:cid/purchase", passportCall('jwt'), finalizarCompra)
 
 //DELETE
-router.delete("/:cid/product/:pid", authorization(["admin", "premium"]), deleteProdInCart)
+router.delete("/:cid/product/:pid", deleteProdInCart)
 
 router.delete("/:cid", authorization('admin'), deleteAllProdInCart)
 

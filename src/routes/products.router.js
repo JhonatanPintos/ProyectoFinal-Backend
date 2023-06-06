@@ -6,20 +6,20 @@ import { addProd, allProds, deleteProd, oneProd, realtimeproducts, updateProd } 
 const router = Router()
 
 //GET
-router.get("/", passportCall("jwt"), authorization(["admin", "premium"]), allProds)
+router.get("/", passportCall("jwt"), allProds)
 
 router.get("/realtimeproducts", passportCall("jwt"), authorization("admin"), realtimeproducts)
 
 router.get("/:id", passportCall("jwt"), oneProd)
 
 //DELETE
-router.delete("/:pid", passportCall("jwt"), authorization(["admin", "premium"]), deleteProd)
+router.delete("/:pid", passportCall("jwt"), deleteProd)
 
 //POST
-router.post("/", passportCall("jwt"), authorization(["admin", "premium"]), uploaderProduct, addProd)
+router.post("/", passportCall("jwt"), uploaderProduct, addProd)
 
 //PUT
-router.put("/:pid", passportCall("jwt"), authorization(["admin", "premium"]), updateProd)
+router.put("/:pid", passportCall("jwt"), updateProd)
 
 
 export default router
