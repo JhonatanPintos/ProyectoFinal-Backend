@@ -57,11 +57,9 @@ export const changeUserRoleAdm = async (req, res) => {
     if(!documents){
         console.log("Datos Vacios")
     }else{
-
         const identificacion = documents.find(({ name }) => name === "identificacion")
         const comprobantedeestadodecuenta = documents.find(({ name }) => name === "comprobantedeestadodecuenta")
         const comprobantededomicilio = documents.find(({ name }) => name === "comprobantededomicilio")
-        
         if(!comprobantededomicilio || !identificacion || !comprobantedeestadodecuenta){
           console.log("Faltan Datos")
         }else {

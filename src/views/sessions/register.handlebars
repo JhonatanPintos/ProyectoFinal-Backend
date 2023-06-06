@@ -1,12 +1,25 @@
+<div class="d-flex flex-column container text-center gap-2 mt-5">
 <h1>Registrar Usuarios</h1>
 
-<form action="/session/register" method="post">
-    First Name: <input type="text" name="first_name"><br>
-    Last Name: <input type="text" name="last_name"><br>
-    Email: <input type="text" name="email"><br>
-    Age: <input type="text" name="age"><br>
-    Password: <input type="password" name="password"><br><br>
-    <input type="submit" value="Crear">
+<form class="d-flex flex-column container text-center gap-2" style="width: 30rem;" action="/session/register" method="post">
+  <div class="input-group mb-3">
+    <span class="input-group-text">First and last name</span>
+    <input type="text" aria-label="First name" class="form-control" name="first_name">
+    <input type="text" aria-label="Last name" class="form-control" name="last_name">
+    </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
+    <input type="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="email">
+  </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Age</span>
+    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="age">
+  </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
+    <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="password">
+  </div>
+  <button type="submit" class="btn btn-success">Crear</button>
 </form>
-
-<a href="/session/login"><button>Logearme</button></a>
+<a href="/session/login"><button class="btn btn-primary">Ya soy Usuario</button></a>
+</div>

@@ -43,9 +43,12 @@
         </li>
     </ul>
 </nav>
-<a href="/api/products"><button>Crear un Producto</button></a>
-<a href="/session/current"><button>Ver mi Perfil</button></a>
-<a href="/api/carts/{{user.cart._id}}"><button>Ir a mi Carrito</button></a>
-<a href="/api/carts/purchase"><button>Mis Tickets</button></a>
+<a href="/api/products"><button class="btn btn-primary">Crear un Producto</button></a>
+<a href="/session/current"><button class="btn btn-primary">Ver mi Perfil</button></a>
+<a href="/api/carts/{{user.cart._id}}"><button class="btn btn-primary">Ir a mi Carrito</button></a>
+<a href="/api/carts/purchase"><button class="btn btn-primary">Mis Tickets</button></a>
+{{#if (eq user.role "admin")}}
+<a href="/api/users"><button class="btn btn-warning">Lista de Usuarios</button></a>
+{{/if}}
 
 <script src="/js/product.js"></script>

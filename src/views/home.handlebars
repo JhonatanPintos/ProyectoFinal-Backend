@@ -1,27 +1,33 @@
+<div class="d-flex flex-column container text-center gap-2 mt-5">
 <h1>Agregar productos</h1>
-<br>
 
-<form id="addForm" action="/api/products" method="post" enctype="multipart/form-data">
-    <label for="title">Nombre del prodcuto</label>
-    <input type="text" name="title" id="title">
-    <br>
-    <label for="description">Descripción del prodcuto</label>
-    <br>
-    <textarea name="description" id="description" cols="30" rows="10"></textarea>
-    <br>
-    <label for="price">Precio del prodcuto</label>
-    <input type="text" name="price" id="price">
-    <br>
-    <label for="thumbnail">Foto del prodcuto</label>
-    <input type="file" name="file" id="thumbnail">
-    <br>
-    <label for="stock">Stock del prodcuto</label>
-    <input type="text" name="stock" id="stock">
-    <br>
-    <label for="category">Categoria del prodcuto</label>
-    <input type="text" name="category" id="category">
-    <br>
-    <button type="submit">Ingresar Producto</button>
+<form class="d-flex flex-column container text-center gap-2" style="width: 30rem;" action="/api/products" method="post" id="addForm" enctype="multipart/form-data">
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Nombre del prodcuto</span>
+    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="title" id="title">
+  </div>
+  <div class="form-floating">
+    <textarea class="form-control" placeholder="Leave a comment here" name="description" id="description" style="height: 100px"></textarea>
+    <label for="floatingTextarea2">Descripción del prodcuto</label>
+  </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Precio del prodcuto</span>
+    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="price" id="price">
+    <span class="input-group-text" id="inputGroup-sizing-default">$</span>
+  </div>
+  <div class="input-group mb-3">
+    <input class="form-control" type="file" name="file" id="thumbnail">
+    <span class="input-group-text" id="inputGroup-sizing-default">Foto del prodcuto</span>
+  </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Stock del prodcuto</span>
+    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="stock" id="stock">
+  </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Categoria del prodcuto</span>
+    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="category" id="category">
+  </div>
+  <button type="submit" class="btn btn-success">Ingresar Producto</button>
 </form>
-
-<a href="/products"><button>Volver al Inicio</button></a>
+<a href="/products"><button class="btn btn-danger">Volver al Inicio</button></a>
+</div>

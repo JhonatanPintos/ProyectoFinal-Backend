@@ -1,22 +1,35 @@
-<h1>Profile</h1>
+<h1 class="text-center">Profile</h1>
 
-<h2>Nombre: {{user.first_name}}</h2>
-<h4>Apellido: {{user.last_name}}</h4>
-<h4>Email: {{user.email}}</h4>
-<strong>Edad: {{user.age}}</strong>
-<strong>Rol: {{user.role}}</strong>
-
-<form action="/session/changeUserRole" method="get">
-  <button type="submit">Update Rol</button>
-</form>
-
+<div class="card text-center">
+  <div class="card-header">
+  </div>
+  <div class="card-body">
+    <h2>Nombre: {{user.first_name}}</h2>
+    <h4>Apellido: {{user.last_name}}</h4>
+    <h4>Email: {{user.email}}</h4>
+    <strong>Edad: {{user.age}}</strong>
+    <strong>Rol: {{user.role}}</strong>  </div>
+  <div class="card-footer text-body-secondary">
+  </div>
+</div>
+<br>
+<div class="d-flex flex-column container text-center gap-2" style="width: 30rem;">
+<h5>Al subir este o estos archivos tendra que logearse de nuevo</h5>
+<div class="d-flex justify-content-evenly row gap-2">
 <form action="/api/users/documents" method="post" enctype="multipart/form-data">
-  <input type="file" name="file" multiple>
-  <button type="submit">subir documento</button>
+  <div class="mb-3">
+  <input class="form-control" name="file" type="file" multiple>
+  </div>
+  <button class="btn btn-success" type="submit">Subir documento/s</button>
 </form>
-
 <form action="/api/users/imgProfile" method="post" enctype="multipart/form-data">
-  <input type="file" name="imgProf">
-  <button type="submit">subir imagen de user</button>
+  <div class="mb-3">
+  <input class="form-control" type="file" name="imgProf">
+  </div>
+  <button class="btn btn-success" type="submit">Subir imagen de user</button>
 </form>
-<a href="/products"><button>Volver al Inicio</button></a>
+</div>
+<a href="/products"><button class="btn btn-danger">Volver al Inicio</button></a>
+</div>
+
+

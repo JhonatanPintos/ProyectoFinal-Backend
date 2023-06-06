@@ -20,7 +20,7 @@ export const changePassword = async (req, res) => {
       const hashedPassword = createHash(newPassword)
       
       const newUser = await UserService.updateUser(uid, hashedPassword)
-      res.json({status: "success", payload: newUser})
+      res.redirect("/session/login")
     } catch(error) {
         req.logger.warning("Fail Login")
       res.json({status: "error", error});
@@ -30,9 +30,7 @@ export const changePassword = async (req, res) => {
   export const sendRecoveryMail = async (req, res) => {
     try {
       const { email } = req.body
-  
       const result = await UserService.sendMail(email)
-      
       res.json({status: "success", payload: result})
     } catch(error) {
         req.logger.warning("Fail Login")
@@ -69,6 +67,10 @@ export const login =  async (req, res) => {
   const dateU = user.lastConecction = Date.now()
   await UserService.updateUserConection(user._id, dateU)
   res.cookie(config.jwtCookieName, req.user.token).redirect('/products')
+}
+
+export const logout = async (req, res) => {
+  res.clearCookie(config.jwtCookieName).redirect('/session/login');
 }
 
 export const current = async (req, res) => {

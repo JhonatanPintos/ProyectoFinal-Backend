@@ -2,7 +2,13 @@ import {Router} from "express";
 import passport from "passport";
 import config from "../config/config.js";
 import { passportCall } from "../utils.js";
-import {changePassword, sendRecoveryMail, changeUserRole, login, current} from "../controllers/session.controlers.js";
+import {changePassword, 
+    sendRecoveryMail, 
+    changeUserRole, 
+    login, 
+    current,
+    logout
+} from "../controllers/session.controlers.js";
 
 const router = Router()
 
@@ -58,9 +64,7 @@ router.get('/profile', (req, res) => {
 })
 
 // Cerrar Session
-router.get('/logout', async (req, res) => {
-    res.clearCookie(config.jwtCookieName).redirect('/session/login');
-})
+router.get('/logout', logout)
 
 //Para iniciar con GitHub
 router.get('/github', passport.authenticate('github', {scope: ['user:email']}), async (req, res) => {})

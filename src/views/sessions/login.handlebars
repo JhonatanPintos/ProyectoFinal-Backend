@@ -1,10 +1,18 @@
+<div class="d-flex flex-column container text-center gap-2 mt-5">
 <h1>Iniciar Session</h1>
 
-<form action="/session/login" method="post">
-    Email: <input type="text" name="email"><br>
-    Password: <input type="password" name="password"><br><br>
-    <input type="submit" value="Iniciar Sesion">
+<form class="d-flex flex-column container text-center gap-2" style="width: 30rem;" action="/session/login" method="post">
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
+    <input type="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="email">
+  </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
+    <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="password">
+  </div>
+  <button type="submit" class="btn btn-success">Login</button>
 </form>
 <br>
-<a href="/session/register"><button>Registrarme</button></a>
-<a href="/session/forgotPassword"><button>Olvidé mi contraseña</button></a>
+<a href="/session/register"><button class="btn btn-primary">No tengo Usuario</button></a>
+<a href="/session/forgotPassword"><button class="btn btn-danger">Olvidé mi contraseña</button></a>
+</div>
