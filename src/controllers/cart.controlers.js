@@ -159,7 +159,7 @@ export const Pagar = async (req, res) => {
         back_urls: {
           "success": `${config.BASE_URL}/api/carts/approved`,
           "failure": `${config.BASE_URL}/api/carts/purchase`,
-          "pending": `${config.BASE_URL}/session/login`
+          "pending": `${config.BASE_URL}/api/carts/purchase`
         },
         auto_return: "approved",
       };
