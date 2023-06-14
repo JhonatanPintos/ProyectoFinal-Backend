@@ -18,7 +18,7 @@ import {
 const router = Router()
 
 //GET
-router.get("/", allCarts)
+router.get("/", authorization("admin"), allCarts)
 
 router.get("/purchase", purchase)
 

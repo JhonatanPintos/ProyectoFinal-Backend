@@ -1,0 +1,77 @@
+.bodyGeneral{
+    color: white;
+    background-position: 50%;
+    background-size: cover;
+}
+
+h1{
+    text-align: center;
+}
+
+.boxGeneral{
+    background-color: black;
+    margin: auto;
+    width: 800px;
+    border: 2px solid blueviolet;
+    height: 600px;
+    border-radius: 20px;
+}
+.boxGeneral:hover{
+    border: 2px solid cyan;
+}
+
+.userName{
+    font-weight: bold;
+    text-transform: capitalize;
+    color: red;
+}
+
+.mensageMio{
+    display: flex;
+    color: blue;
+}
+
+.mensageOtro{
+    display: flex;
+    justify-content: flex-end;
+    color: yellow;
+}
+
+.mensages{
+    display: flex;
+    flex-direction: column-reverse;
+    margin: 15px;
+    padding: 10px;
+    overflow-y: scroll;
+    height: 500px;
+}
+
+
+.mensages::-webkit-scrollbar {
+    width: 10px;               /* width of the entire scrollbar */
+  }
+  
+.mensages::-webkit-scrollbar-track {
+    background: black;        /* color of the tracking area */
+  }
+
+.textoGeneral{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+}
+
+.texto {
+    margin: 2px;
+    width: 750px;
+    border: 2px solid blueviolet;
+    border-radius: 30px;
+    overflow: hidden;
+    outline: none; }
+    .texto:hover {
+      border: 2px solid cyan; }
+    .texto::placeholder {
+      text-align: center; }

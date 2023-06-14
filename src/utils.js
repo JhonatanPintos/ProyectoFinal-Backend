@@ -64,23 +64,8 @@ export const passportCall = (strategy) => {
 export const authorization = (role) => {
     return async (req, res, next) => {
         const user = req.user.user;
-        if (!user) return res.status(401).send({
-            error: "Unauthorized"
-        });
-        if (user.role != role) return res.status(403).send({
-            error: 'No Permission'
-        })
+        if (!user) return res.status(401).send({error: "Unauthorized"});
+        if (!role.includes(user.role)) return res.status(403).send({error: 'No Permission'})
         next();
     }
-}
-
-export const validateTokenAndGetID = (req, res, next) => {
-    const token = req.params.jwt;
-    jwt.verify(token, config.private_key, (error, credentials) => {
-        if (error) return res.render('session/restore', {
-            message: "token expired"
-        })
-        req.id = credentials.user;
-        next();
-    })
 }

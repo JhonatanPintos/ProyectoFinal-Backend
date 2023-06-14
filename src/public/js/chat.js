@@ -3,11 +3,11 @@ let user = ""
 let chatBox = document.getElementById("chatbox")
 
 Swal.fire({
-    title: 'Authentication',
+    title: '🤫🤐😏 Chat secreto 😏🤐🤫',
     input: 'text',
-    text: 'Set username for the chat',
+    text: 'Ingresa tu nombre',
     inputValidator: value => {
-        return !value.trim() && 'Please. Write a username!'
+        return !value.trim() && 'Ingresa un nombre'
     },
     allowOutsideClick: false
 }).then( result => {
@@ -34,7 +34,12 @@ socket.on("logs", data => {
     let messages = ""
 
     data.reverse().forEach(message => {
-        messages += `<p><i>${message.user}</i>: ${message.message}</p>`
+        if(message.user == user){
+            messages += `<p class="mensageMio"><i class="userName">${message.user}: </i> ${message.message}</p>`
+        }else{
+            messages += `<p class="mensageOtro"><i class="userName">${message.user}: </i> ${message.message}</p>`
+
+        }
     });
     divLog.innerHTML = messages
 })

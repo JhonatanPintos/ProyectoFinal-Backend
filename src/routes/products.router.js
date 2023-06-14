@@ -13,10 +13,10 @@ router.get("/realtimeproducts", passportCall("jwt"), authorization("admin"), rea
 router.get("/:id", passportCall("jwt"), oneProd)
 
 //DELETE
-router.delete("/:pid", passportCall("jwt"), deleteProd)
+router.delete("/:pid", passportCall("jwt"), authorization(["admin", "premium"]), deleteProd)
 
 //POST
-router.post("/", passportCall("jwt"), uploaderProduct, addProd)
+router.post("/", passportCall("jwt"), authorization(["admin", "premium"]), uploaderProduct, addProd)
 
 //PUT
 router.put("/:pid", passportCall("jwt"), updateProd)

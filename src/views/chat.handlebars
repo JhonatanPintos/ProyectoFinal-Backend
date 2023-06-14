@@ -1,11 +1,14 @@
+<div class="bodyGeneral">
 <h1>Chat</h1>
-<div>
-   <i id="username"></i> <input id="chatbox" type="text">
+<div class="boxGeneral">
+<div id="messageLogs" class="mensages"></div>
+<div class="textoGeneral">
+   <i id="username" class="userName"></i> <input class="texto" id="chatbox" type="text" placeholder="Escriba Aqui">
 </div>
-<div id="messageLogs">
-
+</div>
 </div>
 
+<link rel="stylesheet" href="/css/chat.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/chat.js"></script>
